@@ -1,6 +1,6 @@
-# 220314_TIL
+# SQL_learned
 
-## DB(Data Base)
+## 01. DB(Data Base)
 
 체계화된 데이터의 모음
 
@@ -12,7 +12,7 @@
 
 
 
-### 1. RDB(Relational DataBase)
+### 01. RDB(Relational DataBase)
 
 관계형 DB
 
@@ -21,7 +21,7 @@
   - MySQL, sqlite3 등...
     - sqlite3는 서버 형태가 아닌 파일 형태로 응용 프로그램에서 사용하는 비교적 가벼운 DB
 
-### 2. Data Type
+### 02. Data Type
 
 1. NULL : None, 값이 없음
 2. INTEGER : 크기에 따라 0, 1, 2, 3, 4, 6, 8바이트에 저장된 부호있는 정수
@@ -33,13 +33,13 @@
 
 
 
-## SQL(Structured Query Language)
+## 02. SQL(Structured Query Language)
 
 > ※ `.sql`파일은 SQL 쿼리문을 작성하는 파일이고, `.sqlite3`는 DB파일이다.
 >
 > ※ `.`은 sqlite 프로그램의 `기능`을 실행하는 것임
 
-### 1. 정의
+### 01. 정의
 
 RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 언어(구조적 쿼리 언어)
 
@@ -50,9 +50,9 @@ RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 �
 
 
 
-### 2. 분류
+### 02. 분류
 
-#### 1. DDL(Data Definition Language) - 데이터 정의 언어
+#### 01. DDL(Data Definition Language) - 데이터 정의 언어
 
 관계형 데이터베이스 구조(스키마, 테이블)를 정의하기 위한 명령어
 
@@ -61,7 +61,7 @@ RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 �
 
 
 
-#### 2. DML(Data Manipulation Language) - 데이터 조작 언어
+#### 02. DML(Data Manipulation Language) - 데이터 조작 언어
 
 데이터를 저장, 조회, 수정, 삭제 등을 하기 위한 명령어
 
@@ -73,18 +73,18 @@ RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 �
 
 
 
-#### 3. DCL(Data Control Language) - 데이터 제어 언어
+#### 03. DCL(Data Control Language) - 데이터 제어 언어
 
 데이터베이스 사용자의 권한 제어를 위해 사용하는 명령어
 
 
 
-### 3. 생성 및 삭제
+### 03. 생성 및 삭제
 
 - Run query : 모든 쿼리 구문 순차적으로 실행
 - Run selected query : 선택한 구문만 실행
 
-#### 1. 터미널을 통한 생성
+#### 01. 터미널을 통한 생성
 
 ##### 1. 데이터베이스 생성하기
 
@@ -105,7 +105,7 @@ sqlite> .tables
 
 
 
-#### 2. SQL statement
+#### 02. SQL statement
 
 SQL 구문의 끝에는 반드시 `;`(세미 콜론)을 붙여준다. Django가 아니므로, trailing comma를 쓰지 않도록 유의 할 것!
 
@@ -136,13 +136,13 @@ DROP TABLE users;
 
 
 
-### 4. CRUD
+### 04. CRUD
 
 모든 SQL 구문은 소문자여도 작동은 하나, 대문자로 쓰는 것을 권장한다.
 
 문자열은 쌍따옴표가 아닌 일반 따옴표로 쓴다.
 
-#### 1. CREATE
+#### 01. CREATE
 
 - `INSERT INTO`: 특정 테이블에 레코드(행) 삽입(생성)
   - 모든 열에 데이터가 있는 경우에는 칼럼을 명시하지 않아도 됨
@@ -164,7 +164,7 @@ INSERT INTO countries VALUES
 
 
 
-#### 2. READ
+#### 02. READ
 
 - `SELECT` : 테이블에서 데이터를 조회함
   - 다양한 절(clause)와 함께 사용 가능: `ORDER BY`, `DISTINCT`, `WHERE`, `LIMIT`, `GROUP BY` 등
@@ -297,7 +297,7 @@ SELECT * FROM hotels WHERE check_in='2020-01-04' AND room_num NOT LIKE '0%' ORDE
 
 
 
-#### 3. DELETE
+#### 03. DELETE
 
 - `DELETE` : 테이블에서 행을 제거함
   - 일반적으로 고유한(unique)값인 id(rowid)를 기준으로 삭제함
@@ -318,7 +318,7 @@ CREATE TABLE 테이블명 (
 
 
 
-#### 4. UPDATE
+#### 04. UPDATE
 
 - `UPDATE` : 기존 행의 데이터를 수정, 업데이트함
   - `SET`을 사용하여 새로운 값을 설정함
@@ -334,7 +334,7 @@ UPDATE users SET age=30, address='대전' WHERE rowid=3;
 
 
 
-### 5. ALTER TABLE
+### 05. ALTER TABLE
 
 - 테이블의 이름을 변경
 
@@ -367,6 +367,319 @@ DROP COLUMN 기존 칼럼명 TO 새로운 칼럼명;
 
 
 
-### 6. 기타
+### 06. 기타
 
 - sql에서 주석은 `--`(하이픈 2개) 이다
+
+
+
+---
+
+## 03. SQL with Django_ORM(Object Relational Mapping)
+
+### 01. 기본 CRUD 로직
+
+1. 모든 user 레코드 조회
+
+   ```python
+   User.objects.all()
+   ```
+
+      ```sql
+   SELECT * FROM users_user;
+      ```
+
+2. user 레코드 생성
+
+   ```python
+   User.objects.create(first_name="SIWON", last_name="PARK", age=30, country="대전", phone="010-9245-8873", balance = 10000)
+   ```
+
+   ```sql
+   INSERT INTO users_user VALUES (101, '시원', '박', 30, '대전', '010-9245-8873', 0);
+   ```
+
+   * 하나의 레코드를 빼고 작성 후 `NOT NULL` constraint 오류를 orm과 sql에서 모두 확인 해보세요.
+
+3. 해당 user 레코드 조회
+
+   - `102` 번 id의 전체 레코드 조회
+
+   ```python
+   User.objects.get(pk=102)
+   ```
+
+   ```sql
+   SELECT * FROM users_user WHERE rowid = 102;
+   ```
+
+4. 해당 user 레코드 수정
+
+   - ORM: `102` 번 글의 `last_name` 을 '김' 으로 수정
+   - SQL: `102` 번 글의 `first_name` 을 '철수' 로 수정
+
+   ```python
+   User.objects.filter(pk=102).update(last_name='김') # 쿼리셋 반환의 경우 함수적용 가능
+   ```
+
+      ```sql
+   UPDATE users_user SET first_name='철수' WHERE rowid = 102;
+      ```
+
+5. 해당 user 레코드 삭제
+
+   - ORM: `102` 번 글 삭제
+   - `SQL`:  `101` 번 글 삭제 
+
+   ```python
+   User.objects.filter(pk=102).delete()
+   ```
+
+   ```sql
+   DELETE FROM users_user WHERE rowid = 101;
+   ```
+
+
+
+> filter()와 get()의 차이
+>
+> - filter() : QuerySet 반환 => QuerySet함수 적용 가능
+>   - 예) User.objects.filter(pk=10).update(first_name='시원')
+> - get() : 객체(인스턴스) 반환
+
+
+
+---
+
+
+
+### 2. 조건에 따른 쿼리문
+
+1. 전체 인원 수 
+
+   - `User` 의 전체 인원수
+
+   ```python
+   User.objects.all().count() # 또는 User.objects.count()
+   ```
+
+   ```sql
+   SELECT COUNT(*) FROM users_user;
+   ```
+
+2. 나이가 30인 사람의 이름
+
+   - `ORM` : `.values` 활용
+     - 예시: `User.objects.filter(조건).values(컬럼이름)`
+   - ※ filter(조건) => QuerySet반환 / filter(조건).values() => QuerySet 딕셔너리 반환
+
+   ```python
+   User.objects.filter(age=30).values('first_name', 'last_name')
+   ```
+
+      ```sql
+   SELECT first_name, last_name FROM users_user WHERE age=30;
+      ```
+
+3. 나이가 30살 이상인 사람의 인원 수
+
+   -  ORM: `__gte` , `__lte` , `__gt`, `__lt` -> 대소관계 활용 / 문자열 관련: `__contains`, `__startswith`, `__endswith` 등
+
+   ```python
+   User.objects.filter(age__gte=30).count()
+   ```
+
+      ```sql
+   SELECT COUNT(*) FROM users_user WHERE age >= 30;
+      ```
+
+4. 나이가 20살 이하인 사람의 인원 수 
+
+   ```python
+   User.objects.filter(age__lte=20).count()
+   ```
+
+   ```sql
+   SELECT COUNT(*) FROM users_user WHERE age <= 20;
+   ```
+
+5. 나이가 30이면서 성이 김씨인 사람의 인원 수
+
+   ```python
+   User.objects.filter(age=30, last_name='김').count()
+   ```
+
+      ```sql
+   SELECT COUNT(*) FROM users_user WHERE age = 30 AND last_name = '김';
+      ```
+
+6. 나이가 30이거나 성이 김씨인 사람?
+
+   ```python
+   (User.objects.filter(last_name='김') | User.objects.filter(age=30)).count()
+   # User.objects.filter(Q(age=30)|Q(last_name='김')).count()
+   ```
+
+   ```sql
+   SELECT first_name, last_name FROM users_user WHERE age = 30 OR last_name = '김';
+   ```
+
+7. 지역번호가 02인 사람의 인원 수
+
+   - `ORM`: `__startswith` 
+
+   ```python
+   User.objects.filter(phone__startswith='02').count()
+   ```
+
+      ```sql
+   SELECT COUNT(*) FROM users_user WHERE phone LIKE '02-%';
+      ```
+
+8. 거주 지역이 강원도이면서 성이 황씨인 사람의 이름
+
+   ```python
+   User.objects.filter(country='강원도', last_name='황')
+   ```
+
+      ```sql
+   SELECT first_name FROM users_user WHERE country = '강원도' AND last_name = '황';
+      ```
+
+
+
+---
+
+
+
+### 3. 정렬 및 LIMIT, OFFSET
+
+1. 나이가 많은 사람순으로 10명
+
+   ```python
+   User.objects.order_by('-age')[:10]
+   ```
+
+      ```sql
+   SELECT * FROM users_user ORDER BY age DESC LIMIT 10;
+      ```
+
+2. 잔액이 적은 사람순으로 10명
+
+   ```python
+   User.objects.order_by('balance')[:10]
+   ```
+
+      ```sql
+   SELECT * FROM users_user ORDER BY balance LIMIT 10;
+      ```
+
+3. 잔고는 오름차순, 나이는 내림차순으로 10명?
+
+   ```python
+   User.objects.order_by('balance', '-age')[:10]
+   ```
+
+   ```sql
+   SELECT * FROM users_user ORDER BY balance ASC, age DESC LIMIT 10;
+   ```
+
+4. 성, 이름 내림차순 순으로 5번째 있는 사람
+
+   ```python
+   User.objects.order_by('-last_name', '-first_name')[4]
+   ```
+
+      ```sql
+   SELECT * FROM users_user ORDER BY last_name DESC, first_name DESC LIMIT 1 OFFSET 4;
+      ```
+
+
+
+---
+
+
+
+### 4. 표현식
+
+#### 4.1 Aggregate
+
+> - https://docs.djangoproject.com/en/3.2/topics/db/aggregation/#aggregation
+> - '종합', '집합', '합계' 등의 사전적 의미
+> - 특정 필드 전체의 합, 평균 등을 계산할 때 사용
+> - `Django_aggregation.md` 문서 참고
+
+1. 전체 평균 나이
+
+   ```python
+   User.objects.all().aggregate(Avg('age'))
+   ```
+
+      ```sql
+   SELECT AVG(age) FROM users_user;
+      ```
+
+2. 김씨의 평균 나이
+
+   ```python
+   User.objects.filter(last_name='김').aggregate(Avg('age'))
+   ```
+
+      ```sql
+   SELECT AVG(age) FROM users_user WHERE last_name = '김';
+      ```
+
+3. 강원도에 사는 사람의 평균 계좌 잔고
+
+   ```python
+   User.objects.filter(country='강원도').aggregate(Avg('balance'))
+   ```
+
+   ```sql
+   SELECT AVG(balance) FROM users_user WHERE country = '강원도';
+   ```
+
+4. 계좌 잔액 중 가장 높은 값
+
+   ```python
+   User.objects.all().aggregate(Max('balance'))
+   ```
+
+      ```sql
+   SELECT MAX(balance) FROM users_user;
+      ```
+
+5. 계좌 잔액 총액
+
+   ```python
+   User.objects.all().aggregate(Sum('balance'))
+   ```
+
+      ```sql
+   SELECT SUM(balance) FROM users_user;
+      ```
+
+
+
+※ 필드 항목 변경 및 설정
+
+- ORM
+  - 예) User.objects.all().aggregate(my_avg=Avg('age')) : 'my_avg'라는 필드로 age의 평균을 반환
+- SQL
+  - 예) SELECT AVG(age) AS 'my_avg' FROM users_user WHERE last_name = '김';
+
+
+
+#### 4.2 Annotate
+
+1. 지역별 인원 수
+
+   ```PYTHON
+   User.objects.values('country').annotate(counts=Count('country'))
+   ```
+
+   ```SQL
+   SELECT country, COUNT(*) FROM users_user GROUP BY country;
+   ```
+
+   
