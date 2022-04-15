@@ -2,36 +2,44 @@
 
 ## 01. DB(Data Base)
 
-체계화된 데이터의 모음
+**체계화된 데이터의 모음**
 
 논리적으로 연관된 하나 이상의 자료의 모음으로 그 내용을 구조화함으로써 검색 및 갱신의 효율화를 꾀한 것
 
-몇 개의 파일을 조직적으로 통합하여 자료 항목의 중복을 없애고, 구조화시켜놓은 자료의 집합체
+몇 개의 파일을 조직적으로 통합하여 자료 항목의 중복을 없애고, **구조화시켜놓은 자료의 집합체**
 
-- DB 사용의 장점: 중복 최소화, 무결성(정확성), 일관성, 독립성(물리적/논리적), 표준화, 보안 등
+- **DB 사용의 장점 : 중복 최소화, 무결성(정확성), 일관성, 독립성(물리적/논리적), 표준화, 보안 등**
 
-
+<br>
 
 ### 01. RDB(Relational DataBase)
 
-관계형 DB
+- 관계형 DB : 키(Key)와 값(Value)들의 관계(relation)형태가 표(Table)의 형태로 정리된 DB
+  - RDBMS: 관계형 데이터베이스 관리 시스템
+    - MySQL, SQlite, ORACLE 등...
+      - SQlite는 서버 형태가 아닌 파일 형태로 응용 프로그램에서 사용하는 비교적 가벼운 DB
 
-- 키(Key)와 값(Value)들의 형태가 표(Table)의 형태로 정리된 DB
-- RDBMS: 관계형 데이터베이스 관리 시스템
-  - MySQL, sqlite3 등...
-    - sqlite3는 서버 형태가 아닌 파일 형태로 응용 프로그램에서 사용하는 비교적 가벼운 DB
+
+- 스키마(schema) : DB에서 자료의 구조, 표현 방법, 관계 등에 대해 기술한 명세서, 설계도
+- 테이블(Table): 열(칼럼, 필드)과 행(레코드, 값)의 모델을 사용해 조직된 데이터들의 집합
+
+<br>
 
 ### 02. Data Type
 
 1. NULL : None, 값이 없음
 2. INTEGER : 크기에 따라 0, 1, 2, 3, 4, 6, 8바이트에 저장된 부호있는 정수
 3. REAL : 8바이트 부동 소숫점 숫자로 저장된 부동 소숫점 값
-4. TEXT
+4. TEXT : 문자열
 5. BLOB : 입력된 그대로 저장된 데이터
 
 ※ Type Affinity: 특정 칼럼에 저장하도록 권장하는 데이터 타입
 
+![image](https://user-images.githubusercontent.com/93081720/163592685-9a52ad20-35b2-486c-9f96-15057b9ccef1.png)
 
+<br>
+
+---
 
 ## 02. SQL(Structured Query Language)
 
@@ -41,14 +49,14 @@
 
 ### 01. 정의
 
-RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 언어(구조적 쿼리 언어)
+**RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 언어(구조적 쿼리 언어)**
 
 - 활용:
   - DB 스키마, 테이블 생성 및 수정
   - 자료의 검색 및 관리
   - DB객체 접근 및 조정 관리
 
-
+<br>
 
 ### 02. 분류
 
@@ -58,8 +66,9 @@ RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 �
 
 - `CREAT TABLE <테이블명>`
 - `DROP TABLE <테이블명>`
+- `ALTER TABLE <테이블명>`
 
-
+<br>
 
 #### 02. DML(Data Manipulation Language) - 데이터 조작 언어
 
@@ -71,13 +80,18 @@ RDBMS의 데이터 관리를 위해 설계된 특수 목적의 프로그래밍 �
 
 - `DELETE FROM --` : 삭제
 
-
+<br>
 
 #### 03. DCL(Data Control Language) - 데이터 제어 언어
 
 데이터베이스 사용자의 권한 제어를 위해 사용하는 명령어
 
+- `GRANT`
+- `REVOKE`
+- `COMMIT`
+- `ROLLBACK`
 
+<br>
 
 ### 03. 생성 및 삭제
 
@@ -93,7 +107,7 @@ $ sqlite3 mydb.sqlite3  -- <파일명>.sqlite3
 sqlite> .database
 ```
 
-
+<br>
 
 ##### 2. CSV 파일을 Table로 만들기
 
@@ -103,7 +117,7 @@ sqlite> .import <파일명.csv> <테이블명>
 sqlite> .tables
 ```
 
-
+<br>
 
 #### 02. SQL statement
 
@@ -120,13 +134,17 @@ CREATE TABLE users (
 );
 ```
 
-- `.schema <테이블명>`으로 터미널에서 스키마 확인 가능
+- `.schema <테이블명>`으로 터미널에서 스키마 확인 및 조회 가능
 - `PRIMARY KEY`를 설정할 때는 정수형의 경우 반드시 `INTEGER`로 선언해야함
 - 기본적으로 id(pk) 속성을 정의하지 않으면 sqlite에서는 `rowid`라는 속성을 자동적으로 정의하고 있음
   - 숨겨져 있기 때문에 조회하려면 `SELECT rowid, * FROM <테이블명>`을 해야함
+  - rowid는 기본적으로 값이 자동으로 증가하는 PK옵션을 가지고 있음
+    - 값이 자동으로 증가한다 != AUTOINCREMENT
+    - 값이 자동으로 증가한다는 것은 다음 데이터의 rowid가 이전 데이터에서1 증가한다는 의미이며, 기본적으로 만약 데이터를 도중에 한 개 삭제했다면 sqlite는 삭제한 rowid값을 재사용함
+    - AUTOINCREMENT 속성은 rowid값이 1씩 증가한다는 점은 동일하지만, 도중에 데이터를 삭제했다면, 삭제한 rowid의 값은 사용하지 않고 다음 값을 rowid값으로 사용한다(중복 및 재사용 방지)
 - 공백으로 비워둬서는 안 되는 정보는 `NOT NULL`속성을 정의할 수 있다.
 
-
+<br>
 
 ##### 2. `DROP TABLE + <테이블명>`
 
@@ -134,19 +152,19 @@ CREATE TABLE users (
 DROP TABLE users;
 ```
 
-
+<br>
 
 ### 04. CRUD
 
-모든 SQL 구문은 소문자여도 작동은 하나, 대문자로 쓰는 것을 권장한다.
+**모든 SQL 구문은 소문자여도 작동은 하나, 대문자로 쓰는 것을 권장**한다.
 
-문자열은 쌍따옴표가 아닌 일반 따옴표로 쓴다.
+**문자열은** 쌍따옴표가 아닌 **일반 따옴표로 쓴다**.
 
 #### 01. CREATE
 
 - `INSERT INTO`: 특정 테이블에 레코드(행) 삽입(생성)
-  - 모든 열에 데이터가 있는 경우에는 칼럼을 명시하지 않아도 됨
-    - **id를 스키마에 직접 정의해줬다면, id의 칼럼과 값도 SQL구문에 넣어줘야함**
+  - **모든 열에 데이터가 있는 경우에는 칼럼을 명시하지 않아도 됨**
+  - **id를 스키마에 직접 정의해줬다면, id의 칼럼과 값도 SQL구문에 명시해서 넣어줘야함**
 
 ```sql
 INSERT INTO 테이블명 (칼럼1, 칼럼2, ...) VALUES (값1, 값2, ...);
@@ -162,7 +180,7 @@ INSERT INTO countries VALUES
 ('807', '2020-01-04', '2020-01-07', 'superior', 300);
 ```
 
-
+<br>
 
 #### 02. READ
 
@@ -176,7 +194,7 @@ SELECT rowid, name, age FROM users;
 SELECT rowid, * FROM users; -- *(asterics)는 전체를 의미함
 ```
 
-
+<br>
 
 ##### ※ clause(절) 옵션
 
@@ -189,7 +207,7 @@ SELECT DISTINCT 컬럼 FROM 테이블명;
 SELECT DISTINCT age FROM users;
 ```
 
-
+<br>
 
 - `LIMIT` : 쿼리에서 반환되는 행의 수를 제한함
   - 특정 행 다음부터 조회하기 위해 `OFFSET` 키워드와 함께 사용하기도 함 
@@ -199,7 +217,7 @@ SELECT rowid, name FROM users LIMIT 1; -- 1개의 상위 레코드 조회
 SELECT rowid, name, age FROM users LIMIT 1 OFFSET 2; -- 3행에 있는 1개의 레코드 조회
 ```
 
-
+<br>
 
 - `WHERE` : 특정 검색 조건을 지정하여 쿼리에서 행을 반환받음
 
@@ -209,6 +227,8 @@ SELECT 컬럼1, 컬럼2, ... FROM 테이블명 WHERE 조건;
 SELECT age FROM users WHERE age>=30; -- users에서 age가 30이상인 age 데이터를 조회함
 SELECT * FROM users WHERE address='대전'; -- users에서 주소가 대전인 모든 데이터를 조회함
 ```
+
+<br>
 
  - `AND` / `OR` 옵션
 
@@ -220,7 +240,7 @@ SELECT * FROM users WHERE age>=30 AND last_name='김';
 SELECT * FROM users WHERE age>=20 OR last_name='박';
 ```
 
-
+<br>
 
 - `ORDER BY` : 조회 결과에 대한 정렬을 함
   - `ASC` : 오름차순(default), `DESC` : 내림차순
@@ -237,7 +257,7 @@ SELECT * FROM users ORDER BY age ASC LIMIT 10;
 SELECT * FROM users ORDER BY age, last_name DESC LIMIT 10;
 ```
 
- 
+ <br>
 
 - `GROUP BY` : 행 집합에서 요약 행 집합을 만듦
   - `WHERE`절이 있다면 반드시 그 뒤에 작성해야함
@@ -252,7 +272,7 @@ SELECT last_name, COUNT(*) AS last_name_count FROM users GROUP BY last_name;
 
 ※ AS를 활용해서 aggregate function에 해당하는 부분을 새로 정의한 컬럼 명으로 바꿔서 조회 가능
 
-
+<br>
 
 ##### ※ Aggregate function
 
@@ -264,7 +284,7 @@ SELECT 구문에서만 활용되며, 값 집합에 대한 계산 결과 등을 �
 - MIN(칼럼) : 칼럼에 해당하는 값들 중 최솟값을 가져옴
 - SUM(칼럼) : 칼럼에 해당하는 모든 값의 합을 계산함
 
-
+<br>
 
 ##### ※ LIKE
 
@@ -295,7 +315,7 @@ SELECT * FROM hotels WHERE room_num LIKE '0%' OR grade='deluxe';
 SELECT * FROM hotels WHERE check_in='2020-01-04' AND room_num NOT LIKE '0%' ORDER BY price ASC ;
 ```
 
-
+<br>
 
 #### 03. DELETE
 
@@ -307,8 +327,8 @@ DELETE FROM 테이블명 WHERE 조건;
 DELETE FROM users WHERE rowid=3; -- id가 3인 레코드를 삭제함
 ```
 
-※ sqlite는 기본적으로 id를 삭제해도 데이터 추가 시 삭제되었던 id값을 **재사용**함
-재사용하는 것을 방지하기 위해 스키마 정의 시 `AUTOINCREMENT`를 설정하면 됨(django에서는 기본 설정값)
+**※ sqlite는 기본적으로 id를 삭제해도 데이터 추가 시 삭제되었던 id값을 재사용함**
+**재사용하는 것을 방지하기 위해 스키마 정의 시 `AUTOINCREMENT`를 설정하면 됨(django에서는 기본 설정값)**
 
 ```sql
 CREATE TABLE 테이블명 (
@@ -316,7 +336,7 @@ CREATE TABLE 테이블명 (
 );
 ```
 
-
+<br>
 
 #### 04. UPDATE
 
@@ -332,7 +352,7 @@ UPDATE users SET age=30, address='대전' WHERE rowid=3;
 
 ※ 조건 WHERE 절을 명시하지 않을 시 테이블에 있는 모든 데이터가 SET에 입력된 데이터로 변경됨을 유의
 
-
+<br>
 
 ### 05. ALTER TABLE
 
@@ -342,7 +362,7 @@ UPDATE users SET age=30, address='대전' WHERE rowid=3;
 ALTER TABLE 기존 테이블명 RENAME TO 새로운 테이블명;
 ```
 
-
+<br>
 
 - 테이블에 새로운 칼럼을 추가
 
@@ -357,7 +377,7 @@ ALTER TABLE articles ADD COLUMN others TEXT NOT NULL DEFAULT '비고';
 ※ 단, 이 때 NOT NULL을 설정해 줄 수 없다. 왜냐하면 기존에 존재하던 레코드 데이터 값들에는 새롭게 추가하는 칼럼에 대한 정보가 없기 때문이다.
 따라서 위의 예시와 같이 그냥 데이터 타입만 명시해주거나, NOT NULL 다음에 DEFAULT값을 설정해주면 된다.
 
-
+<br>
 
 - 테이블 이름 수정(sqlite 3.25버전 이후)
 
@@ -365,13 +385,13 @@ ALTER TABLE articles ADD COLUMN others TEXT NOT NULL DEFAULT '비고';
 DROP COLUMN 기존 칼럼명 TO 새로운 칼럼명;
 ```
 
-
+<br>
 
 ### 06. 기타
 
 - sql에서 주석은 `--`(하이픈 2개) 이다
 
-
+<br>
 
 ---
 
