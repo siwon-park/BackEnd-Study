@@ -64,7 +64,7 @@
 
 관계형 데이터베이스 구조(스키마, 테이블)를 정의하기 위한 명령어
 
-- `CREAT TABLE <테이블명>`
+- `CREATE TABLE <테이블명>`
 - `DROP TABLE <테이블명>`
 - `ALTER TABLE <테이블명>`
 
