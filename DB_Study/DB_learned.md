@@ -484,3 +484,63 @@ ON e1.mgr = e2.empno;
 인라인 뷰(Inline-view) : FROM 절에 작성하는 서브 쿼리
 
 스칼라 서브 쿼리(Scalar Subquery) : SELECT 문에 작성하는 서브 쿼리
+
+
+
+#### 서브 쿼리를 포함할 수 있는 SQL 문
+
+- SELECT, FROM, WHERE, HAVING, ORDER BY
+- INSERT문의 VALUES
+- UPDATE문의 SET
+
+
+
+#### 서브 쿼리의 사용 시 주의사항
+
+서브 쿼리는 반드시 ()로 감싸서 사용한다
+
+서브 쿼리는 단일 행 또는 다중 행 비교 연산자와 함께 사용 가능하다.
+
+
+
+서브 쿼리 예시) 사원번호가 7788인 사람의 부서명을 조회함(중첩 쿼리, 단일 행)
+
+```mysql
+SELECT dname
+FROM dept
+WHERE deptno = (SELECT deptno
+               FROM emp
+               WHERE empno = 7788);
+```
+
+- 실행순서
+  - 메인 쿼리(외부 쿼리)부터 실행
+    - FROM -> WHERE -> WHERE절의 서브 쿼리(FROM -> WHERE -> SELECT) -> SELECT
+- `=` : 단일 행 비교 연산자
+
+
+
+조인의 단점:
+
+경우에 따라 쿼리가 복잡해지거나 카타시안 곱으로 인해 속도가 느려질 수도 있음
+
+
+
+```mysql
+-- 1. 매니저 이름이 'KING'인 사원의 사번, 이름, 부서번호, 업무를 조회
+SELECT empno, ename, deptno, job
+FROM emp
+WHERE mgr = (SELECT empno
+            FROM emp
+            WHERE ename = 'KING');
+            
+-- 2. 7556번 사원보다 급여를 많이 받는 사원의 이름, 급여를 조회
+SELECT ename, sal
+FROM emp
+WHERE sal > (SELECT sal
+              FROM emp
+              WHERE empno = 7566);
+```
+
+
+
