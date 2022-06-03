@@ -4,6 +4,7 @@
 #
 *.assets/
 imgs/
+*.zip
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
