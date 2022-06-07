@@ -6,23 +6,56 @@
 
 ## 01_MVC Pattern
 
+스프링의 소프트웨어 디자인 패턴으로 엄밀히 말해서 MVC2를 채택하고 있다
+
 
 
 ### Model
+
+어플리케이션의 데이터, DB 등 모든 데이터 정보를 가공하여 갖고 있는 컴포넌트
+
+- 사용자가 이용하려는 모든 데이터를 갖고 있어야하며, View와 Controller에 대해 어떠한 정보도 알 수 없어야 한다
+- 변경이 발생할 경우 그에 대한 처리 방법을 구현해야한다
 
 
 
 ### View
 
+UI, 시각적인 부분을 담당하는 컴포넌트
+
+- Model과 Controller에 대한 정보를 알면 안되며, 단순히 표현/렌더링을 하는 역할을 한다
+- 변경이 발생할 경우 그에 대한 처리 방법을 구현해야한다
+
 
 
 ### Controller
 
+Model과 View를 연결하는 역할의 컴포넌트로, 데이터와 비즈니스 로직 간의 상호작용을 담당한다
 
+- Model과 View에 대한 정보를 알고 있어야하며, 변경에 대해 대처를 해야한다.
 
+<br>
 
+## 02_MVC Pattern 동작 구조
 
+![image](https://user-images.githubusercontent.com/93081720/172411593-e1b641a8-393a-4698-aa7e-5977c709c0b1.png)
 
+1.  Client가 url을 통해서 요청(request)을 보냄
+2.  DispatcherServlet은 요청을 처리하기 위한 Controller를 HandlerMapping에게 검색을 요청한다
+3.  HandlerMapping은 요청된 URL을 이용해서 이를 처리할 Controller를 DispathcerServlet에게 return한다
+4.  DispathcerServlet은 HandlerAdapter에게  Controller가 요청을 처리할 수 있도록 요청 처리를 위임한다
+5.  HandlerAdapter는 Controller에게 요청에 알맞는 method를 호출하도록 요청한다
+6.  Controller는 Service에게 비즈니스 로직 처리를 위임한다
+7.  Service는 요청에 필요한 작업을 수행하거나, DB에 접근이 필요할 경우 DAO에게 처리를 위임한다
+8.  DAO(Data Access Object)는 DB정보를 DTO(Data Transfer Object)를 통해 전달받아 서비스에게 전달한다
+9.  Controller는 비즈니스 로직 처리 결과를 HandlerAdapter에게 반환한다
+10.  HandlerAdapter는 DispatcherServlet에게 처리 결과를 ModelAndView 객체로 변환하여 반환한다
+11.  DispatcherServlet은 결과를 보여줄 View를 찾기 위해 ViewResolver에게 ModelAndView안의 해당 View를 검색 요청한다
+12.  ViewResolver는 ModelAndView안에 있는 View 이름에 해당하는 View객체를 찾거나 생성해서 반환한다
+13.  DispatcherServlet은 전달받은 View 객체에게 request result 생성을 요청한다
+14.  View 객체는 JSP를 사용하는 경우 JSP를 실행하여 result를 Rendering한 후 Client에게 Rendering된 View를 응답(Response)한다
+
+<br>
 
 ## Basic Project Structure
 
@@ -244,6 +277,86 @@ build.gradle파일에 뭔가 추가하고나면 오른쪽 상단에 보면 해�
   - 이렇게 필요한 시점에만 데이터를 가져오는 방식을 `Lazy 방식`이라고 한다. 반대로 q객체를 조회할 때 답변 리스트까지 전부 가져오는 방식을 `Eager 방식`이라고 한다.
   - `@OneToMany`, `@ManyToOne` 애너테이션의 옵션으로 `fetch=FetchType.LAZY` 또는 `fetch=FetchType.EAGER` 처럼 데이터를 가져오는 방식을 설정할 수 있다.
 
+<br>
+
+## 서비스(Service)
+
+대부분의 규모있는 스프링부트 프로젝트는 컨트롤러에서 리포지터리를 직접 호출하지 않고 중간에 서비스(Service)를 두어 데이터를 처리한다. 서비스는 스프링에서 데이터 처리를 위해 작성하는 클래스이다.
+
+### 서비스가 필요한 이유는 무엇인가?
+
+#### 모듈화
+
+서비스를 만들지 않고 컨트롤러에서 해당 기능을 구현하려고 한다면, 모든 컨트롤러가 동일한 기능에 대해 중복으로 구현해야한다. => 서비스는 모듈화를 위해서 필요하다
+
+#### 보안
+
+컨트롤러가 서비스를 통해서만 DB에 접근하도록 구현하는 것이 보안상 안전하다. 이렇게 하면 컨트롤러에 보안 문제가 발생하더라도 리포지토리에 접근하여 뭔가 조작할 수 없다
+
+
+
+### 엔티티 객체와 DTO 객체
+
+엔티티 클래스는 데이터베이스와 직접 맞닿아 있는 클래스이기 때문에 컨트롤러나 타임리프 같은 템플릿 엔진에 전달하여 사용하는 것은 좋지 않다. 왜냐하면 컨트롤러나 타임리프에서 사용하는 데이터 객체는 속성을 변경하여 비즈니스적인 요구를 처리해야 하는 경우가 많은데 엔티티를 직접 사용하여 속성을 변경한다면 테이블 컬럼이 변경되어 엉망이 될수도 있기 때문이다.
+
+이러한 이유 때문에 엔티티 클래스 대신 사용할 DTO(Data Transfer Object) 클래스가 필요하다. 엔티티 객체를 DTO 객체로 변환하는 일을 서비스에서 담당한다.
+
+=> 서비스는 컨트롤러와 리포지토리의 중간에서 엔티티 객체와 DTO 객체를 서로 변환하여 양방향 전달하는 역할을 한다.
+
+
+
+Controller -> Service -> Repository 구조로 데이터를 처리함
+
+<br>
+
+![image](https://user-images.githubusercontent.com/93081720/172428403-cbaa3948-8373-46da-9ea2-5f011367f2c8.png)
+
+<br>
+
+![image](https://user-images.githubusercontent.com/93081720/172432700-304c0a49-cbe9-42fe-bb63-ffbdbd1d75cf.png)
+
+`model.addAttribute(attributeName, object)` : 모델 객체에 attributeName에 지정된 문자열로 해당 객체를 저장하겠다는 의미
+
+=> 관련된 템플릿에서 지정된 문자열로 해당 객체 정보를 가져와서 렌더링 가능해짐
+
+<br>
+
+## 질문 상세 및 URL Prefix
+
+### template에서 variable 맵핑하기
+
+`/question/detail/`과 같은 문자열과 `${question.id}`와 같은 자바 객체의 값을 더할 때는 반드시  `|` 로 좌우를 감싸 주어야 한다 => `{|/question/detail/${question.id}|}`
+
+![image](https://user-images.githubusercontent.com/93081720/172423341-e6a9431e-c060-44a4-a7bb-937255a5afdd.png)
+
+<br>
+
+### Controller의 url에 variable 맵핑하기
+
+![image](https://user-images.githubusercontent.com/93081720/172422995-fb8a560f-206c-43c0-8325-ef886b6ffb40.png)
+
+url 주소에 id와 같은 변수(variable)를 맵핑하기 위해서는 `@PathVariable` 애너테이션을 사용해서 맵핑할 수 있다. 단, 이때 애너테이션 안에 지정해준 문자열 형태의 변수명과 실제 변수명이 일치해야한다.
+
+`@RequestMapping(value = )`에서 value는 써도 되고 안 써도 상관없다
+
+<br>
+
+### 사용자 정의 예외 처리
+
+![image](https://user-images.githubusercontent.com/93081720/172434129-db0c743e-f209-4980-bbc3-91c69760defd.png)
+
+![image](https://user-images.githubusercontent.com/93081720/172434377-867985ce-05fe-43bc-b53c-269eda531212.png)
+
+<br>
+
+### URL Prefix(URL 프리픽스)
+
+ ※ Controller의 클래스 단위의 URL 맵핑(URL prefix)는 필수 사항은 아니고, Controller의 성격에 맞게 사용하면 됨
+
+![image](https://user-images.githubusercontent.com/93081720/172432068-61ea647f-3c8d-4205-9bf3-10a86aa96eb4.png)
+
+<br>
+
 
 
 ----
@@ -264,3 +377,4 @@ build.gradle파일에 뭔가 추가하고나면 오른쪽 상단에 보면 해�
   - gradle: 그루비(Groovy)를 기반으로한 빌드 도구로, Maven과 같은 이전 세대 빌드 도구의 단점을 보완하고 장점을 취합하여 만든 빌드 도구
 - Bean이란 무엇인가?
 - DI(Dependency Injection)란 구체적으로 무엇인가?
+- AOP, POJO란 무엇인가?
