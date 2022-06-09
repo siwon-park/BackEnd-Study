@@ -6,7 +6,7 @@
 
 ## 01_MVC Pattern
 
-스프링의 소프트웨어 디자인 패턴으로 엄밀히 말해서 MVC2를 채택하고 있다
+스프링의 소프트웨어 디자인 패턴으로 각각 M: Model, V: View, C: Controller를 의미한다. 스프링 프레임워크는 현재 MVC2 패턴을 채택하고 있다
 
 
 
@@ -54,6 +54,77 @@ Model과 View를 연결하는 역할의 컴포넌트로, 데이터와 비즈니�
 12.  ViewResolver는 ModelAndView안에 있는 View 이름에 해당하는 View객체를 찾거나 생성해서 반환한다
 13.  DispatcherServlet은 전달받은 View 객체에게 request result 생성을 요청한다
 14.  View 객체는 JSP를 사용하는 경우 JSP를 실행하여 result를 Rendering한 후 Client에게 Rendering된 View를 응답(Response)한다
+
+<br>
+
+## IoC(Inversion of Control)와 DI(Dependency Injection)
+
+### IoC(Inversion of Control) - 제어의 역전
+
+제어의 역전 => 제어의 흐름을 바꾼다
+
+메서드나 객체의 호출 작업을 개발자가 결정하는 것이 아니라, 외부(프레임워크)에서 결정하는 것을 의미 => 개발자가 주도해서 개발하는 것이 아니라, 프레임워크의 구조와 틀에 맞게 필요한 부분을 개발해서 적용한다.
+
+#### Why?
+
+기존의 new를 통한 방식의 객체 생성은 객체 간의 의존성을 갖게 만듦 => 클래스 내부에서 객체를 생성하여 사용하게 되면 해당 클래스는 생성한 객체에 의존성을 갖게 된다.
+
+해당 클래스 수정이 어려워지는 문제가 발생한다. 클래스 내부에 생성된 객체에 변경 사항이 발생했을 경우 해당 클래스뿐만 아니라 연결된 다른 클래스까지 전부 변경해줘야한다 => 소프트웨어 모듈화에 큰 방해가 됨
+
+#### So?
+
+이를 해결하기 위해 의존성 주입이라는 개념이 생겨났음
+
+
+
+### DI(Dependency Injection) - 의존성 주입
+
+의존성 주입 => 외부에서 객체를 생성하여 주입함
+
+외부에서 객체를 생성하여 주입함으로써 모듈 간 결합 관계를 낮출 수 있음 => 코드 수정이 용이해짐
+
+한 클래스를 수정한다고 했을 때, 다른 클래스까지 수정해야하는 상황이 발생하지 않으며, 외부에서 객체를 주입받는 부분만 수정하면 됨
+
+#### 방법
+
+- 생성자(권장)
+
+```java
+public class Chef {
+    private Knife knife;
+    
+    public Chef(Knife knife) { // 외부에서 생성된 knife 객체를 Chef 클래스의 생성자의 인자로 받음
+        this.knife = knife;
+    }
+}
+```
+
+- setter
+
+```java
+public class Chef {
+    // setter를 통해서 외부에서 생성된 knife 객체를 전달받음(Spring에서 @Autowired 애너테이션이 필요)
+    public void setKnife(Knife knife) {
+        this.knife = knife;
+    }
+}
+```
+
+- @Autowired
+
+```java
+public class Chef {
+    
+    @Autowired // 속성에 @Autowired 애너테이션을 적용하여 객체를 주입받음
+    private Knife knife;
+}
+```
+
+
+
+
+
+
 
 <br>
 
@@ -375,6 +446,7 @@ url 주소에 id와 같은 변수(variable)를 맵핑하기 위해서는 `@PathV
 
 - maven과 gradle의 차이점?
   - gradle: 그루비(Groovy)를 기반으로한 빌드 도구로, Maven과 같은 이전 세대 빌드 도구의 단점을 보완하고 장점을 취합하여 만든 빌드 도구
-- Bean이란 무엇인가?
-- DI(Dependency Injection)란 구체적으로 무엇인가?
+- Bean이란 무엇인가? 스프링 빈 컨테이너? 스프링 라이프 사이클 훅?
+- ~~DI(Dependency Injection)란 구체적으로 무엇인가?~~
 - AOP, POJO란 무엇인가?
+- DAO, DTO?
