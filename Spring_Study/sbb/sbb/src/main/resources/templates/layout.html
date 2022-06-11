@@ -1,0 +1,19 @@
+<!--layout.html-->
+<!--django의 base.html과 동일한 역할을 하는 부모 html템플릿-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <!-- sbb CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <title>Hello, SpringBoot!</title>
+</head>
+<body>
+<!-- 기본 템플릿 안에 삽입될 내용 -->
+<th:block layout:fragment="content"></th:block> <!--django의 DTL block태그와 같음-->
+</body>
+</html>
