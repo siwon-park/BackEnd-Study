@@ -51,7 +51,8 @@ public class QuestionController {
         if (bindingResult.hasErrors()) { // form validation을 통과하지 못하면
             return "question_create_form"; // 질문 생성 form으로 이동(현위치)
         }
-        this.questionService.create(questionForm.getTitle(), questionForm.getContent()); // QuestionService의 create메서드를 통해 질문 생성
+        // QuestionService의 create메서드를 통해 질문 생성
+        this.questionService.create(questionForm.getTitle(), questionForm.getContent());
         return "redirect:/question/list"; // 질문 등록 후 질문 목록(메인)으로 리다이렉트
     }
 }
