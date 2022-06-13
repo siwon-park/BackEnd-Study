@@ -464,9 +464,51 @@ createQuestion 메서드에 questionForm을 매개변수로 입력했으니 mode
 
 ![image](https://user-images.githubusercontent.com/93081720/173195900-692096ad-5e34-4f72-8cfc-1de2ed2189ca.png)
 
+<br>
 
+## 10. 공통 템플릿
+
+에러 메세지와 같이 반복적으로 사용되는 코드는 공통 템플릿으로 만들고 필요한 부분에 삽입하여 쓸 수 있도록 변경하는 것이 좋음
+
+![image](https://user-images.githubusercontent.com/93081720/173397023-c771964f-587d-4f1d-ac0b-a87d6e0a9af3.png)
+
+- `th:fragment` 속성을 사용하면 공통 템플릿으로서 다른 템플릿에 넣을 수 있는 기능이 추가 된다
+- 삽입하고자 하는 템플릿에 `th:replace` 속성을 지정하고 `템플릿 파일 명 :: th:fragment 속성으로 지정한 명칭`을 써줌으로써 템플릿 삽입이 가능하다
+  - th:replace="form_errors :: formErrorsFragment"의 의미는 form_errors라는 파일의 th:fragment가 formErrorsFragment로 지정된 엘리멘트로 교체하라는 의미이다. 
+
+#### question_create_form.html 수정
+
+![image](https://user-images.githubusercontent.com/93081720/173396837-8d18ba73-e0af-423c-b285-4155e4c74924.png)
 
 <br>
+
+#### question_detail.html 수정
+
+![image](https://user-images.githubusercontent.com/93081720/173397931-d20fc2be-946d-41d5-90fb-17819f77a9eb.png)
+
+<br>
+
+## 11_Navbar 추가
+
+#### navbar.html 추가 및 layout.html 삽입(bootstrap.js 적용)
+
+![image](https://user-images.githubusercontent.com/93081720/173400839-aebf97fd-9de5-4210-af34-0b51e58bd12a.png)
+
+<br>
+
+![image](https://user-images.githubusercontent.com/93081720/173401151-93bef6f4-d764-4a0b-8ae4-0ec9042489af.png)
+
+<br>
+
+## 12_페이징
+
+### 대량의 테스트 데이터 만들기
+
+
+
+
+
+
 
 ----
 

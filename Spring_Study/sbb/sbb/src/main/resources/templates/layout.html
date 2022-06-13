@@ -13,7 +13,12 @@
     <title>Hello, SpringBoot!</title>
 </head>
 <body>
+<!--navbar-->
+<nav th:replace="navbar :: navbarFragment"></nav>
 <!-- 기본 템플릿 안에 삽입될 내용 -->
 <th:block layout:fragment="content"></th:block> <!--django의 DTL block태그와 같음-->
+
+<!--Bootstrap JS-->
+<script th:src="@{/bootstrap.min.js}"></script>
 </body>
 </html>

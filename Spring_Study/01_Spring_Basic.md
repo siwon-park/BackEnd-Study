@@ -124,7 +124,7 @@ public class Chef {
 
 
 
-### Questions
+### Questions / Todos
 
 - maven과 gradle의 차이점?
   - gradle: 그루비(Groovy)를 기반으로한 빌드 도구로, Maven과 같은 이전 세대 빌드 도구의 단점을 보완하고 장점을 취합하여 만든 빌드 도구
@@ -132,3 +132,4 @@ public class Chef {
 - ~~DI(Dependency Injection)란 구체적으로 무엇인가?~~
 - AOP, POJO란 무엇인가?
 - DAO, DTO?
+- 스프링과 스프링부트의 차이점?
