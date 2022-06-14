@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringBoot Instagram Clone Coding</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" id="title" ref="title">
+    <br>
+    <input type="file" id="picture" ref="picture" accept="image/png, image/jpeg">
+    <br>
+    <input type="password" id="password" ref="password">
+    <button @click="post">포스팅</button>
+    <hr>
+    <div v-for="list in lists" :id="list.uid">
+        {{list.uid}}
+        <img :src="list.path" width="500px" height="500px">
+        <input type="text" v-model="list.title" ref="tt">
+        <input type="file" :ref="list.uid" accept="image/png, image/jpeg">
+        <br>
+        <button @click="updatePosting(list)">업데이트</button>
+        <button @click="deletePosting(list)">삭제</button>
+        <hr>
+    </div>
+</div>
+<!--vue cdn 적용-->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--axios cdn 적용-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      data:{
+        file: null,
+        lists: [],
+        path: '',
+        status: ''
+      },
+      methods: {
+        post: function() {
+          const formData = new FormData();
+          formData.append("picture", this.$refs.picture.files[0])
+          formData.append("title", this.$refs.title.value)
+          formData.append("password", this.$refs.password.value)
+          axios.post(
+            '/content',
+            formData,
+            { headers: {'Content-Type': 'multipart/form-data'} }
+          )
+          .then(res => {
+            this.getList()
+          })
+          .catch(err => {
+            console.error(err.response.data)
+          })
+        },
+
+        updatePosting: function (list) {
+          const upPassword = prompt("Enter the password for update")
+          if (!upPassword) return
+          const formData = new FormData();
+          formData.append("picture", this.$refs[list.uid][0].files[0])
+          formData.append("title", list.title)
+          formData.append("password", upPassword)
+          axios.put(
+            '/content/'+list.uid,
+            formData,
+            { headers: { 'Content-Type': 'multipart/form-data' } }
+          )
+          .then(res => {
+            this.getList()
+          })
+          .catch(err => {
+            console.error(err.response.data)
+          })
+        },
+
+        deletePosting: function (list) {
+          const delPassword = prompt("Enter the password for delete")
+          if (!delPassword) return
+          axios.delete(
+            '/content/'+list.uid,
+            {data: { password: delPassword } }
+          ).
+          then(res => {
+            this.getList()
+          })
+          .catch(err => {
+            console.error(err.response.data)
+          })
+        },
+
+        getList: function() {
+          axios.get(
+            '/content'
+          )
+          .then(res => {
+            this.lists = res.data
+          })
+          .catch(err => {
+            console.error(err.response.data)
+          })
+        }
+      },
+
+      mounted: function () {
+        this.$nextTick(function() {
+          this.getList()
+        })
+      }
+    })
+</script>
+</body>
+</html>
