@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>DETAIL</h1>
+  <p><img src="{{ movie.poster_url }}" alt="" width="500px"></p>
+  <p><strong>{{ movie.title }}</strong></p>
+  <p>Audience: {{ movie.audience }}</p>
+  <p>Release Dates: {{ movie.release_date }}</p>
+  <p>Genre: {{ movie.genre }}</p>
+  <p>Score: {{ movie.score }}</p>
+  <p>{{ movie.description }}</p>
+  <div>
+    <a href="{% url 'movies:edit' movie.pk %}">EDIT</a>
+    <form action="{% url 'movies:delete' movie.pk %}" method="POST">
+      {% csrf_token %}
+      <button class="btn btn-danger">DELETE</button>
+    </form>
+  </div>
+  <a href="{% url 'movies:index' %}">BACK</a>
+{% endblock content %}

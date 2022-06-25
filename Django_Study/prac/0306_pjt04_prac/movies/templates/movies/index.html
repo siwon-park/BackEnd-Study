@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mx-3">
+  <section class="container-fluid my-5">
+    <div>
+      <img class="img-fluid" src={% static 'header2.jpg' %} alt="">
+    </div>
+  </section>
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+      {% for key, value in movies_lst.items %}
+      {% comment %} 카드 클래스 시작 {% endcomment %}
+        <div class="col my-4 mx-1px">
+          <div class="card border-2">
+            <a href="#popup{{ forloop.counter }}" data-bs-toggle="modal">
+              <img src={{ value.1 }} class="card-img-top" alt="..." width="100%" height="300">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">{{ key }}</h5>
+              <p class="card-text">{{ value.0 }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">더보기</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">예매하기</button>
+                </div>
+                <small class="text-muted">개봉: {{ value.2 }} </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% for key, value in movies_lst.items %}
+      {% comment %} 모달 {% endcomment %}
+        <div class="modal" tabindex="-1" id="popup{{ forloop.counter }}">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">{{ key }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {% comment %} 카로셀 {% endcomment %}
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="https://via.placeholder.com/300X200" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="https://via.placeholder.com/300X200" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="https://via.placeholder.com/300X200" class="d-block w-100" alt="...">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock content %}
