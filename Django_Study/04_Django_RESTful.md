@@ -231,6 +231,14 @@ OOP에 대부분 등장하는 개념
 
 <br>
 
+#### Serializer와 Data
+
+CRUD에서 C, U, D는 데이터의 변경을 동반하므로 Validation(검증)이 필요한 영역인 반면, R은 데이터의 조회이므로 검증이 따로 필요 없다. 하지만, 데이터의 CRUD에 대한 모든 행동은 Serializing을 거쳐서 전달하고 받는다.
+
+![image](https://user-images.githubusercontent.com/93081720/176445354-79d30c74-2b83-4d6a-94e2-0a1577ef8334.png)
+
+<br>
+
 #### Serializers in Django
 
 - Queryset 및 Model 인스턴스와 같은 복잡한 데이터를 JSON, XML 등의 유형으로 쉽게 변환 할 수 있는 Python 데이터 타입으로 만들어줌
@@ -708,6 +716,14 @@ JSON 포맷을 활용한 요소 간 안전하게 정보를 교환하기 위한 �
 따라서 매우 짧은 유효기간(5min)과 Refresh 토큰을 활용하여 구현
 
 One source Multi Use 상황에 적합
+
+<br>
+
+#### 차이
+
+BWT(Basic Web Token)은 서버에 토큰 값을 저장하지만, JWT(JSON Web Token)은 서버에 토큰 데이터를 저장하지 않음.
+
+따라서 BWT는 로그인 로직을 구현할 때 토큰을 발행해서 갖고 있다가 로그아웃을 하면 해당 토큰 값을 삭제하는 로직을 구현해줘야한다.
 
 <br>
 

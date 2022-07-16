@@ -176,8 +176,6 @@ public class Chef {
 
 ## 05_Entity, DAO, DTO
 
-
-
 ### Entity(엔티티)
 
 > DB 테이블에 존재하는 칼럼(필드)들을 속성(property)로 가지는 클래스
@@ -220,9 +218,15 @@ Entity를 만들 때, 최대한 Setter를 만드는 것을 지양하는데, 그 
 
 > 실제 DB에 접근하는 객체
 
-JPA에서는 DB에 데이터를 CRUD하는 `Repository`객체들이 DAO라고 말할 수 있음(실제 개념적으로는 차이가 있음)
+DB에 데이터를 CRUD하는 `Repository`객체들이 DAO라고 말할 수 있음(실제 개념적으로는 차이가 있음)
 
+Persistence Layer(Repository) => DB에 data를 CRUD하는 계층
 
+JPA 등장 이전에는 보통 생성, 검색, 수정, 삭제와 같은 기본적인 CRUD 오퍼레이션을 각 Entity마다 작성해주었다. => DAO 클래스를 각 Entity마다 작성하였음
+
+왜? 데이터 테이블에 접근해서 데이터에 대한 오퍼레이션을 실행 당하는 대상이 자바 내의 데이터 테이블 객체인 Entity이기 때문
+
+<br>
 
 ### DTO(Data Transfer Object)
 
@@ -244,7 +248,63 @@ DB에서 꺼낸 데이터를 저장하는 Entity를 가지고 만드는 일종�
 
 <br>
 
+## 06_AOP(Aspect Oriented Programming)
 
+
+
+<br>
+
+## 07_@; 에너테이션 정리
+
+### @Component, @Controller, @Service, @Repository
+
+>  @Controller, @Service, @Repository는 @Component 에너테이션이 구체화된 형태
+
+@Component는 개발자가 직접 작성한 Class를 Bean으로 등록하기 위한 에너테이션 
+
+![image](https://user-images.githubusercontent.com/93081720/179360100-a36338a0-e127-476d-a46b-8686f314eaef.png)
+
+<br>
+
+### @ComponentScan
+
+> @Component, @Service, @Repository, @Controller, @Configuration 에너테이션이 붙은 클래스 Bean들을 찾아서 Context에 bean 등록을 해주는 에너테이션
+
+#### ※ @SpringBootApplication 
+
+@SpringBootApplication의 에너테이션 안에는 @ComponentScan이 포함되어 있음. 따라서 우리는 실질적으로 @ComponentScan을 쓸 일은 거의 없다.
+
+<br>
+
+### @Bean
+
+@Bean은 개발자가 직접 제어가 불가능한 외부 라이브러리 등을 Bean으로 만들려고 할 때 사용하는 에너테이션
+
+### @Configuration
+
+@Configuration은 해당 클래스에서 1개 이상의 Bean을 생성하고 있음을 명시하는 에너테이션
+
+따라서 @Bean을 사용하는 클래스는 반드시 @Configuration과 함께 사용함
+
+<br>
+
+### @Autowired
+
+@Autowired는 field(속성) , setter, method, constructor(생성자)에서 사용하며 Type에 따라 자동으로 bean을 주입시켜주는 에너테이션
+
+※ Autowired 방식으로 의존성을 주입할 경우, 순환 참조가 발생할 수도 있어 생성자를 통한 의존성 주입 방식이 권장됨
+
+### @Qualifier
+
+같은 타입의 bean이 두 개 이상 존재하는 경우, 어떤 bean을 주입해야하는지 알 수  없어, 스프링 컨테이너를 초기화하는 과정에서 예외가 발생하는데, 이때 @Qualifier를 @Autowired와 함께 사용하여 어떤 bean을 사용할지 명시할 수 잇음
+
+<br>
+
+### 코드의 작성 순서
+
+
+
+<br>
 
 ---
 
@@ -257,3 +317,4 @@ DB에서 꺼낸 데이터를 저장하는 Entity를 가지고 만드는 일종�
 - AOP, POJO란 무엇인가?
 - ~~DAO, DTO?~~
 - 스프링과 스프링부트의 차이점?
+- 도메인, 컨트롤러 등에 대해 용어 정리 및 개념 탑재
