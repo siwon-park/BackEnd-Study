@@ -1,14 +1,12 @@
 ![image](https://user-images.githubusercontent.com/93081720/172037595-5d53b57e-9d25-48b5-8433-485d78b311c8.png)
 
-# 01_Spring_Basic
+# 00_Spring_Basic
 
 
 
 ## 01_MVC Pattern
 
 스프링의 소프트웨어 디자인 패턴으로 각각 M: Model, V: View, C: Controller를 의미한다. 스프링 프레임워크는 현재 MVC2 패턴을 채택하고 있다
-
-
 
 ### Model
 
@@ -17,16 +15,12 @@
 - 사용자가 이용하려는 모든 데이터를 갖고 있어야하며, View와 Controller에 대해 어떠한 정보도 알 수 없어야 한다
 - 변경이 발생할 경우 그에 대한 처리 방법을 구현해야한다
 
-
-
 ### View
 
 UI, 시각적인 부분을 담당하는 컴포넌트
 
 - Model과 Controller에 대한 정보를 알면 안되며, 단순히 표현/렌더링을 하는 역할을 한다
 - 변경이 발생할 경우 그에 대한 처리 방법을 구현해야한다
-
-
 
 ### Controller
 
@@ -300,7 +294,7 @@ DB에서 꺼낸 데이터를 저장하는 Entity를 가지고 만드는 일종�
 
 <br>
 
-### 코드의 작성 순서
+## 08_AOP(Aspect Oriented Programming)
 
 
 
