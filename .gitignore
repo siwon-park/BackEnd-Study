@@ -5,6 +5,7 @@
 *.assets/
 imgs/
 *.zip
+node_modules/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
