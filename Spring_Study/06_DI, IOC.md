@@ -1,8 +1,8 @@
 ![image](https://user-images.githubusercontent.com/93081720/172037595-5d53b57e-9d25-48b5-8433-485d78b311c8.png)
 
-# 05_DI와 IoC
+# 06_DI와 IoC
 
-## DI(Dependency Injection) - 의존성 주입
+## 01_DI(Dependency Injection) - 의존성 주입
 
 의존성 주입 => 외부에서 객체를 생성하여 주입함
 
@@ -12,7 +12,7 @@
 
 ### 방법
 
-- **생성자(권장)**
+#### 생성자(권장)
 
 ```java
 public class Chef {
@@ -24,7 +24,7 @@ public class Chef {
 }
 ```
 
-- **setter**
+#### setter
 
 ```java
 public class Chef {
@@ -35,7 +35,7 @@ public class Chef {
 }
 ```
 
-- **@Autowired**
+#### @Autowired
 
 ```java
 public class Chef {
@@ -47,7 +47,7 @@ public class Chef {
 
 <br>
 
-## IoC(Inversion of Control) - 제어의 역전
+## 02_IoC(Inversion of Control) - 제어의 역전
 
 제어의 역전 => 제어의 흐름을 바꾼다
 

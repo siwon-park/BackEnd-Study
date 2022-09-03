@@ -1,6 +1,6 @@
 ![image](https://user-images.githubusercontent.com/93081720/172037595-5d53b57e-9d25-48b5-8433-485d78b311c8.png)
 
-# 04_메이븐(Maven)과 그레이들(Gradle)
+# 09_메이븐(Maven)과 그레이들(Gradle)
 
 ![build-logo](https://user-images.githubusercontent.com/93081720/173735849-207a1ef0-01a4-4ccd-9865-c2eae868d407.png)
 

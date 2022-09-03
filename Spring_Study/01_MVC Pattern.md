@@ -50,3 +50,39 @@ Model과 View를 연결하는 역할의 컴포넌트로, 데이터와 비즈니�
 12.  ViewResolver는 ModelAndView안에 있는 View 이름에 해당하는 View객체를 찾거나 생성해서 반환한다
 13.  DispatcherServlet은 전달받은 View 객체에게 request result 생성을 요청한다
 14.  View 객체는 JSP를 사용하는 경우 JSP를 실행하여 result를 Rendering한 후 Client에게 Rendering된 View를 응답(Response)한다
+
+<br>
+
+## 03_Layer
+
+계층은 크게 4가지로 나뉜다(그림은 축약 표현한 것임)
+
+![image](https://user-images.githubusercontent.com/93081720/188267834-0a0547ad-d8f8-49b4-962a-94b12aaa57d1.png)
+
+### Presentation Layer(UI Layer)
+
+서비스와 관련된 정보 표시
+
+사용자가 직접 엑세스 할 수 있는 계층(ex) 웹페이지, GUI)
+
+
+
+### Application Layer(Service Layer)
+
+특정 어플리케이션 작업을 수행하는데 필요한 작업을 정의
+
+필요한 도메인 작업을 위임하고 다른 서비스와 상호작용함
+
+
+
+### Business Logic Layer(Domain Layer)
+
+유효성 검사, 계산과 같은 로직을 포함하는 계층
+
+
+
+### Data Access Layer(Persistence Layer)
+
+데이터에 영속성(persistency)를 부여해주는 계층
+
+※ 영속성? 데이터를 생성한 프로그램이 종료되어도 데이터가 유지되는 특성
