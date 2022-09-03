@@ -7,6 +7,9 @@ const output = {
   },
   login: (req, res) => {
     res.render("home/login");
+  },
+  register: (req, res) => {
+    res.render("home/register");
   }
 };
 
@@ -37,6 +40,11 @@ const process = {
     //   msg: "로그인에 실패했습니다",
     // });
   },
+  register: (req, res) => {
+    const user = new User(req.body);
+    const response = user.register();
+    return res.json(response);
+  }
 };
 
 module.exports = {

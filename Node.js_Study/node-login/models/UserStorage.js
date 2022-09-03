@@ -31,6 +31,11 @@ class UserStroage {
 
     return userInfo;
   }
+
+  static save(userInfo) {
+    
+  }
+
 }
 
 module.exports = UserStroage;
