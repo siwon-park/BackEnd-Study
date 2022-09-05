@@ -60,7 +60,7 @@
 
 만약에 memberService에 @Service 어노테이션 적용되지 않은 채, memberController에서 @Autowired를 통해 생성자를 자동으로 주입하는 코드를 작성했다고 하자 => 이 경우 서버를 작동시키면 오류가 난다. memberService가 스프링 컨테이너에 스프링 빈으로 등록되어 있지 않기 때문
 
-![image-20220903205525544](C:\Users\SIWON\AppData\Roaming\Typora\typora-user-images\image-20220903205525544.png)
+![image](https://user-images.githubusercontent.com/93081720/188277027-ed3b601d-2835-40b5-8702-a11785dd0eec.png)
 
 
 
