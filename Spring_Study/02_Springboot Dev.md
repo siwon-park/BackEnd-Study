@@ -1,8 +1,6 @@
 # 02_스프링부트 프로젝트
 
-## 프로젝트 개발 순서
-
-[출처](https://github.com/HomoEfficio/dev-tips/blob/master/SpringBoot%20%EA%B0%9C%EB%B0%9C%20%EC%88%9C%EC%84%9C.md)
+## 공통
 
 ### 1. Springboot 프로젝트 생성
 
@@ -17,6 +15,53 @@
 (maven 프로젝트라면, application.yml에 local, dev, production 프로파일 작성)
 
 (1번에서 직접 의존성을 설정해줬다면 이미 build.gradle을 설정한 것이므로 pass)
+
+<br>
+
+## 프로젝트 개발 순서1
+
+### 3. domain 객체(Entity) 작성
+
+도메인 객체, 엔티티 작성
+
+- 도메인 로직 테스트 케이스 작성
+- 도메인 객체 작성
+
+
+
+### 4. RequestDto 작성
+
+RequestDto는 Service에 넘겨줄 요청 사항에 대한 DTO임
+
+경우에 따라 엔티티화 메서드나, 빌더 패턴을 넣어야 할 수도 있음
+
+
+
+### 5. Repository 작성
+
+JPA레포지토리를 상속한 레포지토리를 작성하고 필요한 메서드들을 정의함
+
+
+
+### 6. Service 작성
+
+개발하고자 하는 어플리케이션의 핵심 비즈니스 로직을 서비스에서 구현함
+
+
+
+### 7. ResponseDto 작성
+
+
+
+### 8. Controller 작성
+
+
+
+<br>
+
+## 프로젝트 개발 순서2
+
+[출처](https://github.com/HomoEfficio/dev-tips/blob/master/SpringBoot%20%EA%B0%9C%EB%B0%9C%20%EC%88%9C%EC%84%9C.md)
 
 ### 3. domain 객체(Entity) 작성
 
