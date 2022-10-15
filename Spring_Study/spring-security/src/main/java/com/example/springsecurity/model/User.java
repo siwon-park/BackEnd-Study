@@ -1,6 +1,8 @@
 package com.example.springsecurity.model;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +15,8 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -30,4 +34,14 @@ public class User {
     @CreationTimestamp
     private Timestamp createDate;
 
+    public User(int id, String username, String password, String email, String role, String provider, String providerId, Timestamp createDate) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.createDate = createDate;
+    }
 }

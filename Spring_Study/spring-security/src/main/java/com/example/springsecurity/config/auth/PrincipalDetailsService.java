@@ -18,7 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     // loginForm.html에서 name=username을 username2로 받았을 경우에는 동작하지 않음
     // 시큐리티 session(내부 Authentication(내부 UserDetails))
-    @Override
+    @Override // 함수 종료 시 @AuthenticationPrinciapl 어노테이션이 만들어진다.
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user != null) {

@@ -5,6 +5,7 @@ package com.example.springsecurity.config.auth;
 // 세션에 들어갈 수 있는 정보, 오브젝트 => Authentication 타입 객체
 // Authentication 안에 User 정보가 있어야 함
 // User 오브젝트 타입 => UserDetails 타입 객체
+// Security Session에 들어갈 수 있는 타입이 Authentication 타입의 객체만들어가기 때문에 PrincipalDetails를 만듦
 
 // Security Session => Authentication => UserDetails 타입 (PrincipalDetails)
 
@@ -22,11 +23,16 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user;
+    private Map<String, Object> attributes;
 
     public PrincipalDetails(User user) {
         this.user = user;
-    }
+    } // 일반 로그인 시 사용하는 객체
 
+    public PrincipalDetails(User user, Map<String, Object> attributes) { // Oauth 로그인 시 사용하는 객체
+        this.user = user;
+        this.attributes = attributes;
+    }
     @Override // 해당 User의 권한을 리턴하는 곳
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // user.getRole() // String이기 때문에 해당 값으로 반환 불가능
@@ -75,7 +81,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 
     @Override

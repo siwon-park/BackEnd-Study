@@ -1,6 +1,12 @@
 # Spring-Security
 
-## 스프링 시큐리티
+## 0. 프로젝트 파일 작성 순서 요약
+
+IndexController → WebMvcConfig → SecurityConfig → User → UserRepository → PrincipalDetails → PrincipalDetailsService → PrincipalOauth2UserConfig
+
+<br>
+
+## 1. 스프링 시큐리티
 
 ### 1. MySQL DB 및 사용자 생성
 
@@ -106,7 +112,7 @@ commit;
 
 <br>
 
-## 구글 로그인(Oauth2.0)
+## 2. 구글 로그인(Oauth2.0)
 
 ### 1. 패키지 설치
 
@@ -124,4 +130,39 @@ commit;
 
 ### 3. application.properties 설정 추가
 
-![image](https://user-images.githubusercontent.com/93081720/195970748-e43162eb-838d-4ce8-b6ed-adf6aecbd602.png)
+![image](https://user-images.githubusercontent.com/93081720/195991451-e3b328c4-52cc-491e-8516-226ba285c733.png)
+
+<br>
+
+## 3. 페이스북 로그인
+
+대부분의 과정은 구글과 동일함
+
+단, scope 설정 시, profile이 아니라 public_profile임을 유의
+
+![image](https://user-images.githubusercontent.com/93081720/195991471-73abce14-0142-4e42-bb53-2f6d0b333f40.png)
+
+<br>
+
+## 4. 네이버 로그인
+
+#### ※ Oauth-client
+
+Oauth-client 라이브러리에서 구글, 페이스북, 트위터는 기본적으로 제공하지만, 카카오나 네이버는 제공하지 않는다.
+
+따라서 네이버는 다음과 같이 설정을 추가해줘야 한다.
+
+![image](https://user-images.githubusercontent.com/93081720/195991400-af0fc934-eba5-43a4-8f2e-36301301eafc.png)
+
+<br>
+
+## 5. JWT
+
+### JWT는 왜 사용되고, 어디에 쓰는가?
+
+본질적으로 세션의 문제를 해결하기 위해서 사용함
+
+
+
+### 세션과 세션의 문제점
+
