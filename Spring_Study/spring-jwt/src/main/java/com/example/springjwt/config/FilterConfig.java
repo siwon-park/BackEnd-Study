@@ -1,6 +1,7 @@
 package com.example.springjwt.config;
 
 import com.example.springjwt.filter.Myfilter;
+import com.example.springjwt.filter.Myfilter2;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +17,11 @@ public class FilterConfig {
         return bean;
     }
 
-//    @Bean
-//    public FilterRegistrationBean<Myfilter2> filter2() {
-//        FilterRegistrationBean<Myfilter2> bean = new FilterRegistrationBean<>(new Myfilter2());
-//        bean.addUrlPatterns("/*");
-//        bean.setOrder(1);
-//        return bean;
-//    }
+    @Bean
+    public FilterRegistrationBean<Myfilter2> filter2() {
+        FilterRegistrationBean<Myfilter2> bean = new FilterRegistrationBean<>(new Myfilter2());
+        bean.addUrlPatterns("/*");
+        bean.setOrder(1);
+        return bean;
+    }
 }

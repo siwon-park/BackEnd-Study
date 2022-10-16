@@ -1,8 +1,11 @@
 package com.example.springjwt.config;
 
 import com.example.springjwt.filter.Myfilter;
+import com.example.springjwt.jwt.JwtAuthenticationFilter;
+import com.example.springjwt.jwt.JwtAuthorizationFilter;
+import com.example.springjwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.filters.CorsFilter;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,6 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsFilter) // @CrossOrigin => 인증이 없을 때, 인증이 있을 때는 시큐리티 필터에 등록해야함
                 .formLogin().disable() // jwt를 사용하므로 formLogin 방식을 사용하지 않음(폼 태그 방식으로 로그인을 하지 않음)
                 .httpBasic().disable() // 기본적인 http 로그인 방식을 사용하지 않음 => Bearer 방식 사용
+                .addFilter(new JwtAuthenticationFilter(authenticationManager())) // AuthenticationManager를 줘야함
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/**") // 해당 주소로 요청이 들어오면
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // 해당 권한이 있으면 접속 가능
