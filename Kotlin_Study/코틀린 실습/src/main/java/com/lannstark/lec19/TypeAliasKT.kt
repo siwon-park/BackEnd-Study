@@ -5,6 +5,13 @@ import com.lannstark.lec17.Fruit
 class TypeAliasKT {
 }
 
+    data class UtlraSuperGuardianTribe(
+        val name: String
+    )
+
+    typealias USGTMAP = Map<String, UtlraSuperGuardianTribe>
+
+
 fun main() {
 //    filterFruits()
 //    typeAliasFilterFruits()
