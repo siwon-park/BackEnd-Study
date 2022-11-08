@@ -92,7 +92,7 @@ class KotlinBookServiceTest @Autowired constructor(
         // given
         bookRepository.save(Book("어린 왕자"))
         val savedUser = userRepository.save(User("박시원", 30))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "어린 왕자", false))
+        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "어린 왕자", true))
         val request = BookReturnRequest("박시원", "어린 왕자")
 
         // when

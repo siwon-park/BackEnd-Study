@@ -70,7 +70,7 @@ class KotlinUserServiceTest @Autowired constructor( // constructor 앞에 @Autow
     fun updateUserNameTest() {
         // given
         val savedUser = userRepository.save(User("A", null))
-        val request = UserUpdateRequest(savedUser.id, "B")
+        val request = UserUpdateRequest(savedUser.id!!, "B") // savedUser.id!! Null 아님 단언
 
         // when
         userService.updateUserName(request)
