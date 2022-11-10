@@ -9,6 +9,8 @@ import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
+import com.group.libraryapp.type.BookType
+import com.group.libraryapp.type.UserLoanStatus
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -39,7 +41,7 @@ class KotlinBookServiceTest @Autowired constructor(
     @DisplayName("책 등록이 정상 동작한다.")
     fun saveBookTest() {
         // given
-        val request = BookRequest("어린 왕자", "컴퓨터")
+        val request = BookRequest("어린 왕자", BookType.COMPUTER)
 
         // when
         bookService.saveBook(request)
@@ -48,7 +50,7 @@ class KotlinBookServiceTest @Autowired constructor(
         val books = bookRepository.findAll()
         assertThat(books).hasSize(1)
         assertThat(books[0].name).isEqualTo("어린 왕자")
-        assertThat(books[0].type).isEqualTo("컴퓨터")
+        assertThat(books[0].type).isEqualTo(BookType.COMPUTER)
     }
 
     @Test
@@ -67,7 +69,7 @@ class KotlinBookServiceTest @Autowired constructor(
         assertThat(results).hasSize(1)
         assertThat(results[0].bookName).isEqualTo("어린 왕자")
         assertThat(results[0].user.id).isEqualTo(savedUser.id)
-        assertThat(results[0].isReturn).isFalse // isFalse 대신 isFalse()를 사용할 수도 있음
+        assertThat(results[0].status).isEqualTo(UserLoanStatus.LOANED) // isFalse 대신 isFalse()를 사용할 수도 있음
     }
 
     @Test
@@ -76,7 +78,7 @@ class KotlinBookServiceTest @Autowired constructor(
         // given
         bookRepository.save(Book.fixture("어린 왕자"))
         val savedUser = userRepository.save(User("박시원", 30))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "어린 왕자", false))
+        userLoanHistoryRepository.save(UserLoanHistory.fixture(savedUser, "어린 왕자"))
         val request = BookLoanRequest("박시원", "어린 왕자")
 
         // when & then
@@ -93,7 +95,7 @@ class KotlinBookServiceTest @Autowired constructor(
         // given
         bookRepository.save(Book.fixture("어린 왕자"))
         val savedUser = userRepository.save(User("박시원", 30))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "어린 왕자", true))
+        userLoanHistoryRepository.save(UserLoanHistory.fixture(savedUser, "어린 왕자"))
         val request = BookReturnRequest("박시원", "어린 왕자")
 
         // when
@@ -102,7 +104,7 @@ class KotlinBookServiceTest @Autowired constructor(
         // then
         val results = userLoanHistoryRepository.findAll()
         assertThat(results).hasSize(1)
-        assertThat(results[0].isReturn).isTrue // isTrue 대신 isTrue()를 사용할 수도 있음
+        assertThat(results[0].status).isEqualTo(UserLoanStatus.RETURNED) // isTrue 대신 isTrue()를 사용할 수도 있음
     }
 
 }
