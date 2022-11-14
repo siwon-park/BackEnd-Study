@@ -1,6 +1,6 @@
 ![image](https://user-images.githubusercontent.com/93081720/200813778-1b5d0e69-83e7-4e6c-9870-4e8aee5d0cac.png)
 
-# 14_Spring Security
+# 14_Spring Security (1)
 
 ## 01_Spring Security란?
 
