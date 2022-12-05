@@ -22,6 +22,10 @@ class User(
     @Column(nullable = false)
     var password: String,
 
+    @Column(nullable = false)
+    var role: String,
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?
