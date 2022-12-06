@@ -70,3 +70,66 @@ hasRole과 마찬가지로 유저에게 해당 권한이 있는지 확인하여 
 
 그러나 hasRole과는 달리 스프링 시큐리티에서 따로 자동으로 붙여주는 PREFIX가 존재하지 않기 때문에, 그냥 DB에 있는 권한으로 지정한 문자열 데이터 그대로 사용 가능하다.
 
+<br>
+
+### antMatchers()
+
+특정 리소스(url)에 대해서 권한을 설정함
+
+```java
+antMatchers("/login**", "/api/**")
+```
+
+<br>
+
+### anyRequest()
+
+모든 리소스를 의미함
+
+- 모든 리소스에 대해 인증 필요: `anyRequest().authenticated()`
+- 모든 리소스에 대해서 인증 없이 접근 가능: `anyRequest().permitAll()`
+
+<br>
+
+### permitAll()
+
+설정한 리소스에 대한 접근을 인증 절차 없이 허용한다는 의미
+
+```java
+antMatchers("/login**", "/api/**").permitAll()
+```
+
+<br>
+
+## 필터 관련 설정
+
+커스텀 필터 예시)
+
+![image](https://user-images.githubusercontent.com/93081720/205935501-08b64c8d-6a4c-4afa-9e6c-e51eb72c5ff6.png)
+
+### addFilterBefore()
+
+지정된 필터 앞에 커스텀 필터를 추가 등록한다. 즉, 추가 등록한 필터가 해당 필터보다 먼저 동작한다.
+
+![image](https://user-images.githubusercontent.com/93081720/205935885-a05ceeaf-9c2b-4bb4-8187-3652d4feb0e5.png)
+
+위 사진에서는 MyFilter1이 UsernamePasswordAuthenticationFilter보다 **먼저** 동작하게 한다.
+
+<br>
+
+### addFilterAfter()
+
+지정된 필터 뒤에 커스텀 필터를 추가 등록한다. 즉, 추가 등록한 필터가 해당 필터보다 나중에 동작한다.
+
+![image](https://user-images.githubusercontent.com/93081720/205936291-6a55215e-0170-43f6-95d0-35c7d5321b02.png)
+
+위 사진에서는 MyFilter1이 UsernamePasswordAuthenticationFilter보다 **나중에** 동작하게 한다.
+
+<br>
+
+### addFilterAt()
+
+지정된 필터의 순서에 커스텀 필터가 추가된다.
+
+사실 상 크게 쓰일 일은 없을 듯한 설정 옵션. addFilterBefore나 addFilterAfter를 쓰면 되고, 서블릿의 addFilter를 사용하면서 filter간 우선 순위를 설정해서 사용하면 되기 때문
+
