@@ -25,10 +25,9 @@ class User(
     @Column(nullable = false)
     var role: String,
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?
+    val id: Long = 0L,
 ) {
 
     fun updateName(name: String) {

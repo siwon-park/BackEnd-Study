@@ -9,11 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails
 @Getter
 class AuthUserDetails(
     var user: User,
-//    var accountNonExpired: Boolean,
-//    var accountNonLocked: Boolean,
-//    var credentialNonExpired: Boolean,
-//    var enabled: Boolean = false,
-//    var roles: List<GrantedAuthority>,
 ) : UserDetails {
 
     var accountNonExpired: Boolean = true
@@ -25,6 +20,7 @@ class AuthUserDetails(
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         val authorities: MutableCollection<GrantedAuthority> = arrayListOf() // new ArrayList<>()
         val userRole = this.user.role
+        System.out.println(userRole)
         authorities.add(SimpleGrantedAuthority(userRole))
         return authorities
     }

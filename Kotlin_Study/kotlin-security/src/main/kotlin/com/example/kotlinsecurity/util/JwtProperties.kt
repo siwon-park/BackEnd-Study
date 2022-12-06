@@ -10,5 +10,4 @@ interface JwtProperties {
         const val ACCESS_TOKEN_EXPIRATION: Long = 60 * 60 * 1000L // 1시간 설정
         const val REFRESH_TOKEN_EXPIRATION: Long = 2 * 60 * 60 * 1000L // 2시간 설정
     }
-
 }
