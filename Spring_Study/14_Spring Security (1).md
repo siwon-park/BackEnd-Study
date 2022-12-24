@@ -108,7 +108,9 @@ UserDetailsService 인터페이스는 UserDetails 객체를 반환하는 단 하
 따라서 우리는 UserDetails를 구현하는 User 클래스나 Principal 클래스를 만들어야한다.
 ```
 
+![화면 캡처 2022-12-06 132135](https://user-images.githubusercontent.com/93081720/209421135-043b25b4-9ffa-4c4a-ba84-c35e8f333686.png)
 
+<br>
 
 ### 전체 요약
 
