@@ -60,9 +60,9 @@ is_discount 칼럼의 값이 NULL 이라면 0 을 출력하고, NULL 이 아니�
 
 
 
-※ `IS NULL`과 헷갈리지 않도록 유의
+※ `ISNULL(칼럼명)`과 같이 NULL일 경우 대체할 값을 쓰지 않는다면 `IS NULL`과 같은 의미를 가진다.
 
-`IS NULL`은 `IS`와 `NULL`을 각각 쓴 것으로 어떤 필드의 값이 NULL인 경우 TRUE, NULL이 아닌 경우 FALSE를 나타낸다.
+- `IS NULL`은 `IS`와 `NULL`을 각각 쓴 것으로 어떤 필드의 값이 NULL인 경우 TRUE, NULL이 아닌 경우 FALSE를 나타낸다.
 
 ```sql
 SELECT ORDER_ID, PRODUCT_ID, DATE_FORMAT(OUT_DATE, '%Y-%m-%d'),
