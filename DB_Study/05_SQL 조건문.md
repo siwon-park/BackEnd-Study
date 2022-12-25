@@ -58,6 +58,22 @@ FROM PRODUCTS;
 
 is_discount 칼럼의 값이 NULL 이라면 0 을 출력하고, NULL 이 아니라면 is_discount 의 값을 출력한다.
 
+
+
+※ `IS NULL`과 헷갈리지 않도록 유의
+
+`IS NULL`은 `IS`와 `NULL`을 각각 쓴 것으로 어떤 필드의 값이 NULL인 경우 TRUE, NULL이 아닌 경우 FALSE를 나타낸다.
+
+```sql
+SELECT ORDER_ID, PRODUCT_ID, DATE_FORMAT(OUT_DATE, '%Y-%m-%d'),
+    CASE
+        WHEN OUT_DATE IS NULL THEN '출고미정'
+        WHEN DATEDIFF(OUT_DATE, "2022-05-01") > 0 THEN '출고대기'
+        ELSE '출고완료'
+    END AS '출고여부'
+FROM FOOD_ORDER ORDER BY ORDER_ID ASC;
+```
+
 <br>
 
 ## NVL
