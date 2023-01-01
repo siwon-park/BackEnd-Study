@@ -206,7 +206,7 @@ FROM <테이블 T1>
 [WHERE 검색조건];
 ```
 
-예시) 
+예시1) 
 
 - 동일한 테이블을 alias만 달리하여 그대로 가져와도 되지만,
 - `서브쿼리`를 통해 새로운 테이블을 가공해서 가져와서 INNER JOIN으로 SELF JOIN도 가능함
@@ -220,6 +220,20 @@ INNER JOIN (SELECT FOOD_TYPE, MAX(FAVORITES) AS FAVORITES
            GROUP BY FOOD_TYPE) r2
 ON r1.FOOD_TYPE = r2.FOOD_TYPE AND r1.FAVORITES = r2.FAVORITES
 ORDER BY r1.FOOD_TYPE DESC;
+```
+
+예시2)
+
+```sql
+-- 헤비 유저가 소유한 장소
+SELECT p1.ID, p1.NAME, p1.HOST_ID
+FROM PLACES p1
+INNER JOIN (SELECT HOST_ID, COUNT(HOST_ID) AS COUNT_HOST
+           FROM PLACES
+           GROUP BY HOST_ID) p2
+ON p1.HOST_ID = p2.HOST_ID
+WHERE p2.COUNT_HOST >= 2
+ORDER BY ID ASC;
 ```
 
 <br>
