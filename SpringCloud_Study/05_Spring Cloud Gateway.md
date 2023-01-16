@@ -75,13 +75,13 @@ public interface StoreClient {
 
 springboot 버전은 2.4.1, lombok과 eureka client, spring cloud routing의 gateway를 추가시켜준다.
 
-![image](https://user-images.githubusercontent.com/93081720/212527597-e6c71886-df6c-4dee-8aa5-9ad724a9d15e.png)
+![image](https://user-images.githubusercontent.com/93081720/212694008-1ac894ad-39fa-4592-8455-c49dfb2780fd.png)
 
 <br>
 
 ### application.yml
 
-![image](https://user-images.githubusercontent.com/93081720/212528028-6f2dd6c3-a02f-462c-97a0-e29a73eb0a76.png)
+![image](https://user-images.githubusercontent.com/93081720/212693448-c83248c7-2f2b-4691-a468-951f4b576665.png)
 
 - routes: 연결할 곳을 지정
   - predicates: 조건문 => 해당하는 Path에 지정된 양식으로 들어왔을 때, 연결된 uri로 보냄
