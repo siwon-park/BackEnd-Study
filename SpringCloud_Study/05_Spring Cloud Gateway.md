@@ -4,6 +4,8 @@
 
 > MSA에서 요청을 어느 서비스로 보낼지 경로를 지정하는 기능, 역할을 하는 서비스(로드 밸런서)
 
+eureka server(discovery-serivce)에서 등록/해제된 서비스들의 정보를 주기적으로 전달(fetch-registry=true인 서비스)하면 apigateway-service는 해당 정보를 기억하고 있다가 요청이 들어오면 해당 서비스로 요청을 보내게 됨
+
 
 
 API Gateway Service의 기능
@@ -143,3 +145,24 @@ application.yml 파일에 filters 옵션에 CustomFilter를 등록해준다.
 - 작성 예시
 
 ![image](https://user-images.githubusercontent.com/93081720/212549576-77b19ae2-9e19-4dd0-8e7d-f879cd37392a.png)
+
+<br>
+
+## 5. Spring Cloud Gateway - Eureka 연동
+
+![image](https://user-images.githubusercontent.com/93081720/212616395-13016360-5a02-43a0-8896-8abd73fe20b9.png)
+
+### 로드 밸런싱
+
+Spring Cloud Gateway에서 사용하는 로드 밸런싱 기법은 `라운드 로빈(Round Robin)` 방식과 `랜덤(Random)` 방식이다.
+
+#### application.yml 적용
+
+`lb:/[Eureka서버에 등록한 어플리케이션 명]`형태로 로드 밸런싱을 적용할 수 있다.
+
+![image](https://user-images.githubusercontent.com/93081720/212629987-dcadadcf-83cf-4e2d-8380-1ef97b9a5d79.png)
+
+
+
+
+
