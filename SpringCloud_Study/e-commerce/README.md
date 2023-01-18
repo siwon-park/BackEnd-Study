@@ -27,6 +27,14 @@
 
 
 
+#### BCryptPasswordEncoder
+
+- password를 해싱하기 위해 Bcrypt 알고리즘 사용
+- 랜덤 SALT를 부여하여 여러 번 Hash를 적용한 암호화 방식
+- Application에 @Bean으로서 passwordEncoder()를 등록시켜주고, 사용하려는 Service에서 의존성 주입을 해줘야함
+
+
+
 #### 유의사항
 
 h2는 1.3대 버전으로 사용함(1.3.176)

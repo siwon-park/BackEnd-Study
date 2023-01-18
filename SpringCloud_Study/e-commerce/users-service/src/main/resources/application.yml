@@ -12,6 +12,14 @@ spring:
         web-allow-others: true
       # 접근할 주소 정의. 일반적으로 h2-console로 정의
       path: /h2-console
+  # datasource => 이 옵션이 없으면 DB 생성이 안 됨(애초에 소스가 뭐인지, 어딘지 모르기 때문)
+  datasource:
+    driver-class-name: org.h2.Driver
+    # DB 주소
+    url: jdbc:h2:mem:testdb
+    # 계정정보
+    username: sa
+    password:
 
 eureka:
   instance:
