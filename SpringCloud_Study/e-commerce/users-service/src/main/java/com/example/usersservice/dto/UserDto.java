@@ -1,5 +1,6 @@
 package com.example.usersservice.dto;
 
+import com.example.usersservice.entity.UserEntity;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,4 +15,12 @@ public class UserDto {
 
     private String encryptedPassword;
 
+    UserEntity toEntity(String email, String name, String userId, String encryptedPassword) { // 엔티티 변환
+        return UserEntity.builder()
+                .userId(userId)
+                .email(email)
+                .name(name)
+                .encryptedPasword(encryptedPassword)
+                .build();
+    }
 }
