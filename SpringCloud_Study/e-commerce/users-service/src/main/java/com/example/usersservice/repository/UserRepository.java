@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 // CrudRepository를 상속받아도 됨
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    
+
+    UserEntity findByUserId(String userId);
 }

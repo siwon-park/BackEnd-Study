@@ -11,3 +11,22 @@ eureka:
 spring:
   application:
     name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: users-service
+          # eureka에 등록된 application명으로 작성
+          uri: lb://USERS-SERVICE
+          # 해당 Path를 적용시키기 위해선 마이크로서비스의 controller의 requestmapping의 baseurl이 일치해야함
+          predicates:
+            - Path=/users-service/**
+
+        - id: catalogs-service
+          uri: lb://CATALOGS-SERVICE
+          predicates:
+            - Path=/catalogs-service/**
+
+        - id: orders-service
+          uri: lb://ORDERS-SERVICE
+          predicates:
+            - Path=/orders-service/**

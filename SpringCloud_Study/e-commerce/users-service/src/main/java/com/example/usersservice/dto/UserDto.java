@@ -4,6 +4,7 @@ import com.example.usersservice.entity.UserEntity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -14,6 +15,7 @@ public class UserDto {
     private Date createdAt;
 
     private String encryptedPassword;
+    private List<ResponseOrder> orders;
 
     UserEntity toEntity(String email, String name, String userId, String encryptedPassword) { // 엔티티 변환
         return UserEntity.builder()

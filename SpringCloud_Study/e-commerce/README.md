@@ -55,3 +55,42 @@ Springboot 2.6.2 버전 + Spring Cloud 2021.0.0 버전 조합으로 사용할 �
 implementation 'jakarta.validation:jakarta.validation-api'
 ```
 
+<br>
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
+- Json 데이터에서 Null인 데이터는 제외 => Null 값인 데이터는 반환하지 않음
+- 예를 들어, 엔티티를 DTO화할 때, Null인 데이터는 제외하고 반환하는 것임
+
+<br>
+
+### catalogs-service
+
+#### Features
+
+- 상품 목록 조회
+
+#### 프로젝트 생성
+
+![image](https://user-images.githubusercontent.com/93081720/213919875-3d4ea279-054c-4adf-b5a4-4a35c047ebda.png)
+
+Springboot 버전은 2.4.1로 하고, dependency 설정은 아래와 같이 추가한다.
+
+![image](https://user-images.githubusercontent.com/93081720/213919954-325e9e78-0683-4a7c-9aa4-048919a67b97.png)
+
+<br>
+
+### orders-service
+
+#### Features
+
+- 사용자별 상품 주문
+- 사용자별 주문 내역 조회
+
+#### 프로젝트 생성
+
+![image](https://user-images.githubusercontent.com/93081720/213923030-f4d28de6-21eb-48b3-acd3-48d344f89711.png)
+
+catalogs-service와 마찬가지로, springboot 버전은 2.4.1, dependency도 동일하게 추가시켜 준다.
+
+![image](https://user-images.githubusercontent.com/93081720/213919954-325e9e78-0683-4a7c-9aa4-048919a67b97.png)
