@@ -1,8 +1,8 @@
-# Kotlin interface 상수
+# 02_Kotlin interface 상수
 
 > 자바의 interface에서는 상수를 정의할 수 있으나, 코틀린의 interface에서는 불가능하다. 왜 그럴까?
 
-## 01_Java interface 상수
+## 1. Java interface 상수
 
 자바의 interface에서는 상수를 정의할 수 있다.
 
@@ -99,7 +99,7 @@ JavaTest interface를 사용하는 입장에서는 당연하게도 EXTRA_NAME, E
 
 <br>
 
-## 02_Kotlin Interface 상수
+## 2. Kotlin Interface 상수
 
 kotlin interface는 인터페이스 본연의 작업을 가질 수 있도록 정의만을 허용한다.
 

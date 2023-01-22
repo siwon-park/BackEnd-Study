@@ -18,13 +18,26 @@ System.out.println(num1 + num2);
 
 코틀린에서 기본 타입간 변환은 **명시적으로** 이루어져야 한다.
 
-to변환타입() 메서드를 사용해서 변호나
+to변환타입() 메서드를 사용해서 변환
 
 ```kotlin
 val num1 = 5;
 val num2: Long = num1.toLong();
 println(num2);
 ```
+
+`변수. to변환타입()`으로 사용
+
+- `toByte()`: Byte로 변환
+- `toShort()`: Short로 변환
+- `toInt()`: Int로 변환
+- `toLong()`: Long으로 변환
+- `toFloat()`: Float으로 변환
+- `toDouble()`: Double로 변환
+- `toChar()`: Char로 변환
+- `toString()`: String으로 변환
+
+<br>
 
 #### null이 들어갈 수 있는 경우
 
