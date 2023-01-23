@@ -4,13 +4,13 @@
 
 ### discovery-service
 
-
+Eureka server
 
 <br>
 
 ### apigateway-service
 
-
+gateway, loadbalancer
 
 <br>
 
@@ -108,3 +108,13 @@ Springboot 버전은 2.4.1로 하고, dependency 설정은 아래와 같이 추�
 catalogs-service와 마찬가지로, springboot 버전은 2.4.1, dependency도 동일하게 추가시켜 준다.
 
 ![image](https://user-images.githubusercontent.com/93081720/213919954-325e9e78-0683-4a7c-9aa4-048919a67b97.png)
+
+<br>
+
+### configuration-service
+
+마이크로 서비스가 가지고 있어야할 구성정보 파일(application.yml)에 대한 서비스
+
+구성 정보 파일이 바뀔 때마다 어플리케이션이 다시 빌드/배포 되어야 한다면 비효율적임
+
+이를 개선하기 위해 외부에 있는 시스템을 이용해서 구성 파일을 관리하는 방법이 있음
