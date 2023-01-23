@@ -14,12 +14,42 @@ spring:
   cloud:
     gateway:
       routes:
+#        - id: users-service
+#          # eureka에 등록된 application명으로 작성
+#          uri: lb://USERS-SERVICE
+#          # 해당 Path를 적용시키기 위해선 마이크로서비스의 controller의 requestmapping의 baseurl이 일치해야함
+#          predicates:
+#            - Path=/users-service/**
+        # 로그인
         - id: users-service
-          # eureka에 등록된 application명으로 작성
           uri: lb://USERS-SERVICE
-          # 해당 Path를 적용시키기 위해선 마이크로서비스의 controller의 requestmapping의 baseurl이 일치해야함
+          predicates:
+            - Path=/users-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            # 해당 path로 들어오면 해당 서비스로 간 다음에 콤마(,) 뒤의 패턴으로 변경해서 요청
+            # 해당 서비스의 RequestMapping에서 xxx-service라고 등록할 필요 없음
+            - RewritePath=/users-service/(?<segment>.*), /$\{segment}
+        # 회원가입
+        - id: users-service
+          uri: lb://USERS-SERVICE
+          predicates:
+            - Path=/users-service/users
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-service/(?<segment>.*), /$\{segment}
+        # 일반
+        - id: users-service
+          uri: lb://USERS-SERVICE
           predicates:
             - Path=/users-service/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: catalogs-service
           uri: lb://CATALOGS-SERVICE
@@ -30,3 +60,7 @@ spring:
           uri: lb://ORDERS-SERVICE
           predicates:
             - Path=/orders-service/**
+
+# Jwt
+token:
+  secret: my_jwt_token

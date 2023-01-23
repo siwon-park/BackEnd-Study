@@ -64,6 +64,20 @@ implementation 'jakarta.validation:jakarta.validation-api'
 
 <br>
 
+#### 로그인 동작 과정
+
+![image](https://user-images.githubusercontent.com/93081720/213982882-25a4263c-395c-41c6-bee1-4a073a4dcd05.png)
+
+<br>
+
+#### 토큰 기반 인증 시스템
+
+백엔드가 Java, 프론트엔드가 React라고 할 때, 세션 기반 인증 방식은 동작할 수 없음 => 왜냐하면 세션이 Java를 통해 발급된 것이기 때문에 JS 기반의 React와는 호환이 되지 않아 Java기반 기술인 JSP로 프론트를 개발하지 않는 이상 세션을 공유할 수 없음
+
+이를 극복하기 위해 나온 것이 토큰 기반 인증 시스템임
+
+
+
 ### catalogs-service
 
 #### Features

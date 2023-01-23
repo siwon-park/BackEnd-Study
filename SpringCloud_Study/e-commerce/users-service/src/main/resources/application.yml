@@ -32,3 +32,12 @@ eureka:
 
 greetings:
   message: Welcome to the Simple E-commerce MSA project
+
+logging:
+  level:
+    com.example.usersservice: DEBUG
+
+# Jwt
+token:
+  expiration_time: 86400000 # 1 day
+  secret: my_jwt_token

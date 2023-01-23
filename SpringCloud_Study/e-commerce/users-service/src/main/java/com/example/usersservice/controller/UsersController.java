@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users-service")
+@RequestMapping("/") // "/users-service는 삭제"
 @RequiredArgsConstructor
 public class UsersController {
 
