@@ -26,7 +26,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override // 권한과 관련된 configure
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-//        http.authorizeRequests().antMatchers("/users/**").permitAll();
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll(); // actuator에 대해서는 전부 허용
         http.authorizeRequests().antMatchers("/**").hasIpAddress("192.168.219.101")
                 .and()
                 .addFilter(getAuthenticationFilter()); // 해당 필터를 통과한 데이터만 통과

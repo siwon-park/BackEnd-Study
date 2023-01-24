@@ -40,9 +40,21 @@
 
 ### yml 파일 생성 및 로컬 레포지토리 업로드
 
+다른 폴더에 ecommerce.yml이라는 파일을 만들고 아래의 내용을 작성한다.
+
 ![image](https://user-images.githubusercontent.com/93081720/214065759-fcc8bd80-01e4-4dc1-91f8-956f9e625f0c.png)
 
 깃과 연동된 폴더를 하나 만들고 commit까지만 진행함
+
+#### ※ 주의점
+
+기존에 쓰던 git repo를 사용하지 않고 새로운 repo를 만들어서 연결한 다음 사용하는 것을 권장함
+
+또한 해당 repo에 yml과 관련된 파일을 push하지 말 것
+
+왜냐하면, 로컬에 있는 파일을 수정하고 commit까지만 하고나서 config-server를 재가동하면 로컬 repo가 master보다 앞서 있다면서 원격 repo에 있는 파일을 가지고 와서 roll back해버리기 때문임 
+
+![image](https://user-images.githubusercontent.com/93081720/214207393-88736790-790c-4619-bcc8-d507e77b356a.png)
 
 <br>
 
@@ -82,3 +94,50 @@
 - 성공했다면 아래 사진과 같이 나와야함
 
 ![image](https://user-images.githubusercontent.com/93081720/214068205-f2b7075e-35a8-4714-92a5-64588e0c8315.png)
+
+<br>
+
+Spring Cloud Config와 연결하기 위해서 해당 마이크로 서비스에
+
+`spring-cloud-starter-config`와 `spring-cloud-starter-bootstrap` dependency를 추가한다.
+
+![image](https://user-images.githubusercontent.com/93081720/214201709-9b6131fe-9b81-4066-9c95-6cc95c08dc55.png)
+
+<br>
+
+#### bootstrap.yml 파일 설정
+
+다음과 같은 설정 내용을 가진 bootstrap.yml 파일을 작성한다.
+
+![image](https://user-images.githubusercontent.com/93081720/214207872-bfe29cf2-eec2-4526-86c6-3f96e2fe5621.png)
+
+<br>
+
+## 2. Springboot Actuator
+
+- application 상태, 모니터링
+- Metric 수집을 위한 Http End Point 제공([공식문서](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints) 참조)
+
+### dependency 설정 추가
+
+![image](https://user-images.githubusercontent.com/93081720/214208079-12c742c8-f569-4e03-823e-359b03a75c9a.png)
+
+<br>
+
+### application.yml 파일 설정 내용 추가
+
+actuator를 사용하기 위해 해당하는 마이크로 서비스의 application.yml 파일에 설정을 추가한다.
+
+![image](https://user-images.githubusercontent.com/93081720/214207985-ebf5a6ce-b5af-4459-9903-93f59cfe0e09.png)
+
+<br>
+
+### refresh 요청하기
+
+위의 설정을 마쳤다면, 이제 매번 ecommerce.yml 파일을 commit할 필요 없이
+
+`해당 포트 번호에 해당하는 주소 + /actuator/refresh`로 `POST`요청을 보내면 자동으로 수정 내용을 반영해준다.
+
+- token.secret에 대한 내용만 바꾸고 refresh 요청을 했을 때의 POST맨 화면
+
+![image](https://user-images.githubusercontent.com/93081720/214208442-54b6d3b1-bc61-495b-948a-e541598ef3e7.png)

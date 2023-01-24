@@ -50,6 +50,15 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/users-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        # user-service의 actuator를 위한 등록
+        - id: users-service
+          uri: lb://USERS-SERVICE
+          predicates:
+            - Path=/users-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-service/(?<segment>.*), /$\{segment}
 
         - id: catalogs-service
           uri: lb://CATALOGS-SERVICE
@@ -61,6 +70,13 @@ spring:
           predicates:
             - Path=/orders-service/**
 
+management:
+  endpoints:
+    web:
+      exposure:
+        # httptrace를 사용하기 위해서는 application에 bean을 하나 등록시켜줘야 함
+        include: refresh, health, beans, httptrace
+
 # Jwt
-token:
-  secret: my_jwt_token
+#token:
+#  secret: my_jwt_token

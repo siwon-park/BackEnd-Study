@@ -4,9 +4,25 @@ server:
 spring:
   application:
     name: config-service
+  # native 파일 읽기 설정(1)
+#  profiles:
+#    active: native
   cloud:
     config:
+      # origin master에서 파일을 읽어오지 않음(작동 안 함...)
+#      allow-override: true
+#      override-none: false
       server:
+        # native 파일 읽기 설정(2)
+#        native:
+#          search-locations: file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
         git:
           # file:\\\C:\Users\SIWON\Desktop\SSAFY\98_Spring-Cloud-Config
-          uri: file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
+          # file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
+          # local repo
+          uri: file:///${user.home}/Desktop/SSAFY/98_Spring-Cloud-Config
+
+          # remote repo(private repo일 경우 username과 password를 작성해줘야한다.)
+          # uri: https://github.com/siwon-park/spring-cloud-config-test.git
+          # username: [your name]
+          # password: [your password]

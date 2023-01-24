@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+      name: ecommerce
+  # 읽어올 profile을 지정
+  profiles:
+    active: dev

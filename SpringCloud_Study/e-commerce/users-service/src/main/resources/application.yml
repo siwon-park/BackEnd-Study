@@ -37,7 +37,15 @@ logging:
   level:
     com.example.usersservice: DEBUG
 
-# Jwt
-token:
-  expiration_time: 86400000 # 1 day
-  secret: my_jwt_token
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        # refresh: config 정보를 새롭게 가져오겠다(POST 요청) / health: health 정보 / beans: 현재 서비스에 등록된 bean 정보
+        include: refresh, health, beans
+
+## Jwt
+#token:
+#  expiration_time: 86400000 # 1 day
+#  secret: my_jwt_token
