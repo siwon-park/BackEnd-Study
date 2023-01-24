@@ -5,8 +5,14 @@ spring:
   application:
     name: config-service
   # native 파일 읽기 설정(1)
-#  profiles:
-#    active: native
+  profiles:
+    active: native
+  # rabbitMQ (서버 상 연결 시 포트번호는 5672임, 로컬은 15672)
+  rabbitmq:
+    host: 192.168.219.101
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
       # origin master에서 파일을 읽어오지 않음(작동 안 함...)
@@ -14,15 +20,20 @@ spring:
 #      override-none: false
       server:
         # native 파일 읽기 설정(2)
-#        native:
-#          search-locations: file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
+        native:
+          search-locations: file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
         git:
-          # file:\\\C:\Users\SIWON\Desktop\SSAFY\98_Spring-Cloud-Config
-          # file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
           # local repo
-          uri: file:///${user.home}/Desktop/SSAFY/98_Spring-Cloud-Config
+#          uri: file:///${user.home}/Desktop/SSAFY/98_Spring-Cloud-Config # file:///Users/SIWON/Desktop/SSAFY/98_Spring-Cloud-Config
 
           # remote repo(private repo일 경우 username과 password를 작성해줘야한다.)
-          # uri: https://github.com/siwon-park/spring-cloud-config-test.git
+           uri: https://github.com/siwon-park/spring-cloud-config-test.git
           # username: [your name]
           # password: [your password]
+
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

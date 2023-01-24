@@ -11,6 +11,11 @@ eureka:
 spring:
   application:
     name: gateway-service
+  rabbitmq:
+    host: 192.168.219.101
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     gateway:
       routes:
@@ -75,7 +80,7 @@ management:
     web:
       exposure:
         # httptrace를 사용하기 위해서는 application에 bean을 하나 등록시켜줘야 함
-        include: refresh, health, beans, httptrace
+        include: refresh, health, beans, httptrace, busrefresh
 
 # Jwt
 #token:

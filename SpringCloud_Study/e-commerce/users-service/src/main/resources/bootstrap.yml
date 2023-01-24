@@ -2,7 +2,8 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
-      name: ecommerce
+      # name을 서비스명으로 맵핑할 경우 해당 config-service가 default로 호출하는 application.yml을 읽어옴
+      name: config-service # ecommerce
   # 읽어올 프로필을 지정
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
