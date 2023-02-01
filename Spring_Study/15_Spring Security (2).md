@@ -8,7 +8,7 @@
 
 ### authenticated()
 
-`authenticated()`는 특정한 권한과 상관 없이, 인증된 사용자의 경우에 접근할 수 있게 한다.
+`authenticated()`는 **특정한 권한과 상관 없이**, 인증된 사용자의 경우에 접근할 수 있게 한다.
 
 즉, 로그인한 유저가 ADMIN 권한이 있든 없든, MANAGER 권한이 있든 없든, 로그인하여 인증만 된다면 해당 url로 접근하여 요청을 보낼 수 있다.
 
@@ -36,7 +36,7 @@ authenticated()가 인증을 체크했다면, `hasRole()`과 `hasAuthority()`를
 
 먼저 User 모델의 인증 정보를 가져오는 `getAuthorites()`이다. 스프링 시큐리티에서 요구하는 유저의 인증 정보는 GrantedAuthority형태이다.
 
- 	![image](https://user-images.githubusercontent.com/93081720/201705346-89d027fc-5727-4034-a508-b66d771e4c9d.png)
+![image](https://user-images.githubusercontent.com/93081720/201705346-89d027fc-5727-4034-a508-b66d771e4c9d.png)
 
 하나의 유저가 여러 권한을 가질 수도 있으므로, 기본적으로 스프링 시큐리티에서 구현해야하는 유저 권한은 목록이며, 컬렉션 자료형이다.
 
@@ -87,17 +87,21 @@ antMatchers("/login**", "/api/**")
 모든 리소스를 의미함
 
 - 모든 리소스에 대해 인증 필요: `anyRequest().authenticated()`
-- 모든 리소스에 대해서 인증 없이 접근 가능: `anyRequest().permitAll()`
+- 모든 리소스에 대해서 인가 없이 접근 가능: `anyRequest().permitAll()`
 
 <br>
 
 ### permitAll()
 
-설정한 리소스에 대한 접근을 인증 절차 없이 허용한다는 의미
+설정한 리소스에 대한 접근 인가를 모두 허용한다는 의미
 
 ```java
 antMatchers("/login**", "/api/**").permitAll()
 ```
+
+![image](https://user-images.githubusercontent.com/93081720/216072379-fcecd9d0-c2ad-4faf-8a78-09ad6ad439ba.png)
+
+Spring Security는 먼저 인증(authentication)에 대한 절차를 처리하고 나서 인가 절차를 처리하고, `permitAll()`메서드는 인가의 영역임
 
 <br>
 
