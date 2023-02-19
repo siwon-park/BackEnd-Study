@@ -1,8 +1,8 @@
-# Comparable과 Comparator
+# 04_Comparable_Comparator
 
 비교에 대한 기준을 정의하는 함수형 인터페이스
 
-## 자바 정렬의 핵심
+## 1. 자바 정렬의 핵심
 
 > 자바에서 정렬은 특별한 정의가 되어있지 않는 한 '**오름차순**'을 기준으로 한다.
 >
@@ -32,7 +32,7 @@
 
 <br>
 
-## Comparable
+## 2. Comparable
 
 > **compareTo** 메서드를 반드시 구현해야한다.
 >
@@ -61,7 +61,7 @@
 
 <br>
 
-## Comparator
+## 3. Comparator
 
 >**compare** 메서드를 반드시 구현해야한다.
 >

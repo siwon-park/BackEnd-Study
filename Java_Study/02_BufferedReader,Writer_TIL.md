@@ -1,25 +1,6 @@
-# 220212_TIL
+# 02_BufferedReader, Writer
 
-### java
-
-#### java에서 튜플 구현
-
-java는 파이썬과 같이 튜플쌍을 이루는 빌트인 함수가 없기 때문에 Pair 클래스를 생성하여 튜플을 구현한다.
-
-```java
-class Pair {
-    int first, second;
-    // Pair는 생성자임
-    Pair(int first, int second) {
-        this.first = first;
-        this.second = second;
-    }
-}
-```
-
-
-
-#### BufferedReader / BufferedWriter
+## 1. BufferedReader / BufferedWriter
 
 **※ Buffer**: 데이터를 한 곳에서 다른 한 곳으로 전송하는 동안 일시적으로 그 데이터를 보관하는 메모리 영역.
 입/출력, 네트워크 관련 기능에 활용됨(입출력 속도를 향상 시키기 위해 사용).
