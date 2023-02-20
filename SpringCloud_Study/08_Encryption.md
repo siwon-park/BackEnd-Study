@@ -62,7 +62,9 @@ Java Keytool을 이용한 RSA 알고리즘을 사용한 RSA public, private keyp
 
 ![image](https://user-images.githubusercontent.com/93081720/214616295-943b4093-b960-4097-be89-9b8983012a22.png)
 
-#### 키 생성
+### 비대칭 키 생성
+
+#### 프라이빗 키 생성
 
 먼저 keystore를 보관할 디렉토리를 하나 생성한 다음에, bash나 cmd 창을 열고 keytool 명령어를 입력해서 키를 생성
 
@@ -93,3 +95,44 @@ keytool -genkeypair -alias apiEncryptionKey -keyalg RSA -dname "CN=Siwon Park, O
 ![image](https://user-images.githubusercontent.com/93081720/214620964-63ef5eb2-b555-42fe-bc15-8955c623510a.png)
 
 ![image](https://user-images.githubusercontent.com/93081720/214621329-be5455b3-a6c8-4dee-ad28-b6b68bd05353.png)
+
+#### 키 정보 확인
+
+```bash
+keytool -list -keystore apiEncryptionKey.jks  -v
+```
+
+#### 퍼블릭 키 추출
+
+명령어 입력 후 비밀번호 입력
+
+- `-rfc` : 표준 양식
+
+```bash
+keytool -export -alias apiEncryptionKey -keystore apiEncryptionKey.jks -rfc -file trustServer.cer
+```
+
+![image](https://user-images.githubusercontent.com/93081720/220141593-67e5a2a2-4e24-4a1c-828d-59e97f019628.png)
+
+#### .jks로 변환하기
+
+비밀번호 2번 입력 후, yes를 입력하여 변환
+
+```bash
+keytool -import -alias trustServer -file trustServer.cer -keystore publicKey.jks
+```
+
+#### 확인
+
+```bash
+keytool -list -keystore apiEncryptionKey.jks
+keytool -list -keystore publicKey.jks
+```
+
+![image](https://user-images.githubusercontent.com/93081720/220143119-0f4e71b8-94ec-4467-8c96-6726cb06c0ef.png)
+
+![image](https://user-images.githubusercontent.com/93081720/220143415-537417c9-eccb-4a95-8bc1-cd882f912efd.png)
+
+#### 적용
+
+위와 같은 방식으로 http://localhost:8888/encrypt과 http://localhost:8888/decrypt에 테스트를 해보면 좀 더 복잡한 방식으로 암호화가 된 것을 확인할 수 있다.

@@ -1,2 +1,8 @@
 encrypt:
   key: my_first_symmetric_key
+#  key-store:
+#    # keystore 파일이 위치한 곳을 명시(윈도우, 리눅스가 디렉토리 명명 방식이 다르므로 유의할 것)
+#    # 윈도우는 / 3개, 리눅스는 2개
+#    location: file:///${user.home}/Desktop/SSAFY/101_keystore/apiEncryptionKey.jks
+#    password: test1234
+#    alias: apiEncryptionKey

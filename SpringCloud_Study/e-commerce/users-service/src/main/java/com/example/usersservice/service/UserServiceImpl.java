@@ -1,5 +1,6 @@
 package com.example.usersservice.service;
 
+import com.example.usersservice.client.OrderServiceClient;
 import com.example.usersservice.dto.ResponseOrder;
 import com.example.usersservice.dto.UserDto;
 import com.example.usersservice.entity.UserEntity;
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final OrderServiceClient orderServiceClient;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -49,7 +51,9 @@ public class UserServiceImpl implements UserService{
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-        List<ResponseOrder> orders = new ArrayList<>();
+        // Using feign client
+        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+
         userDto.setOrders(orders);
 
         return userDto;
