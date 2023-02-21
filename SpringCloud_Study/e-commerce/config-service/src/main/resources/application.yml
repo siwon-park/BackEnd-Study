@@ -7,10 +7,10 @@ spring:
   # native 파일 읽기 설정(1)
   profiles:
     active: native
-  # rabbitMQ (서버 상 연결 시 포트번호는 5672임, 로컬은 15672)
+  # rabbitMQ (시스템 상 AMQP 연결 시 포트번호는 5672임, 웹 브라우저 상에서는 15672)
   rabbitmq:
-    host: 192.168.219.101
-    port: 5672
+    host: 127.0.0.1 # 192.168.219.101
+    port: 5672 # 5672
     username: guest
     password: guest
   cloud:

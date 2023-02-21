@@ -5,7 +5,9 @@ import com.example.usersservice.dto.ResponseOrder;
 import com.example.usersservice.dto.UserDto;
 import com.example.usersservice.entity.UserEntity;
 import com.example.usersservice.repository.UserRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
@@ -53,6 +56,12 @@ public class UserServiceImpl implements UserService{
 
         // Using feign client
         List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
+//        List<ResponseOrder> orders = null;
+//        try {
+//            orders = orderServiceClient.getOrders(userId);
+//        } catch (FeignException fex) {
+//            log.error(fex.getMessage());
+//        }
 
         userDto.setOrders(orders);
 

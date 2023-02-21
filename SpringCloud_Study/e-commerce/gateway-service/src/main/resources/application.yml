@@ -12,7 +12,7 @@ spring:
   application:
     name: gateway-service
   rabbitmq:
-    host: 192.168.219.101
+    host: 127.0.0.1 # 192.168.219.101
     port: 5672
     username: guest
     password: guest

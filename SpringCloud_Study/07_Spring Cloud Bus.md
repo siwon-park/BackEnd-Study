@@ -64,6 +64,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 
 username, password의 기본값은 둘 다 `guest`이다.
 
+※ `-it`옵션을 적용시켰으므로 터미널을 계속 켜둔 채로 실습을 진행할 것을 권장한다. 그게 아니라면 `-it` 대신 `-d`옵션을 써서 detached 모드로 실행시킨다.
+
 <br>
 
 ### 프로젝트 적용
@@ -84,12 +86,37 @@ username, password의 기본값은 둘 다 `guest`이다.
 
 ### application.yml 설정 추가
 
-![image](https://user-images.githubusercontent.com/93081720/214324055-2fa242ec-4efc-4a4e-8e6d-7f3518858c1c.png)
+#### config-service, users-service, gateway-service
+
+![image](https://user-images.githubusercontent.com/93081720/220346859-333e78b7-ee18-45b9-9f27-8d6dca6ea55a.png)
 
 - actuator 옵션에는 `busrefresh`옵션을 추가해준다.
 
 ![image](https://user-images.githubusercontent.com/93081720/214324191-197ced18-19e2-4610-87df-967f38b804d7.png)
 
+- config-service가 사용할 외부 application.yml
+
+![image](https://user-images.githubusercontent.com/93081720/220347122-5a62f5bc-58a8-4d74-a7fe-37f047df9ee4.png)
+
+
+
+### 테스트
+
+#### 실행 순서
+
+1. RabbitMQ 실행
+
+2. config-service 실행
+
+3. discovery-service (eureka) 실행
+
+4. gateway-service 실행
+
+5. 그 외 필요한 마이크로서비스 실행
+
 - 프로젝트 적용 후 실행 성공 시 다음과 같이 rabbitmq에 대한 설정이 적용되었음을 알 수 있다.
 
 ![image](https://user-images.githubusercontent.com/93081720/214323953-6a9d7aba-6492-4d7a-86aa-823aed181ccc.png)
+
+### 
+
