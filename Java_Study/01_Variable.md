@@ -154,7 +154,8 @@ int num1 = num - '0';
 
 ```java
 int num = 3;
-char char_num = num + '0';
+char char_num = (char) (num + '0');
+char char_num1 = (char) (num);
 ```
 
 ##### 문자열(String) → 문자(char)
