@@ -67,11 +67,23 @@ int, long, double, float, boolean, char 등은 원시(primitive) 자료형이라
 
 8개의 기본형을 제외한 모든 타입을 참조형이라고 한다. 즉, 새롭게 선언한 클래스도 참조형이 될 수 있다.
 
- <span style="color:Red">`null`</span>값을 허용한다는 특징이 있다.
+ <span style="color:Red">`null`</span>값을 허용한다는 특징이 있다. 참조형(레퍼런스) 타입을  <span style="color:Red">`Wrapper Class(래퍼 클래스)`</span>라고도 한다.
 
 Boolean, Character, Integer, Long, Float, String, Double, ...
 
-#### String
+#### 사용
+
+기본형 타입을 객체(Object)로 사용할 수 있게 해주기 때문에 `Collection`을 사용할 때, 객체로 저장할 수 있게 해준다.(제네릭으로서 명시)
+
+```java
+ArrayList<int> myNumbers = new ArrayList<int>(); // (X) 잘못된 사용
+
+ArrayList<Integer> myNumbers = new ArrayList<Integer>(); // (O) 올바른 사용법
+```
+
+<br>
+
+#### ※ String
 
 `String`은 리터럴 표기가 가능하지만, 기본 자료형은 아니다. 리터럴 표기가 가능하도록 자바에서 특별 대우 해주는 예외 케이스이다.
 
@@ -79,26 +91,6 @@ Boolean, Character, Integer, Long, Float, String, Double, ...
 String a = "happy java" // 리터럴 표기(사용 가능)
     
 String a = new String("happy java") // String 객체 생성
-```
-
-##### 문자열 포메팅
-
-- 문자열 포멧 코드(`String.format("문자열", "문자1", 숫자, ...)`)
-
-| 코드 | 설명            | 예시                                                         |
-| ---- | --------------- | ------------------------------------------------------------ |
-| %s   | 문자열(String)  | System.out.println(String.format("I love %s", "you")); # "I love you" |
-| %c   | 문자 1개(char)  | System.out.println(String.format("%c love you", "I")); # "I love you" |
-| %d   | 정수(Integer)   | System.out.println(String.format("I love you %d", 300); # I love you 300 |
-| %f   | 부동소수(float) | System.out.println(String.format("%.4f", 3.141529)); # 3.1415 |
-| %%   | %문자 자체      | System.out.println(String.format("Error is %d%%.", 98)); # Error is 98% |
-| %o   | 8진수           |                                                              |
-| %x   | 16진수          |                                                              |
-
-- `System.out.printf()` : Sting.format을 출력한 것과 동일한 기능을 함
-
-```java
-System.out.printf("I love you %d",3000); // "I love you 3000"
 ```
 
 <br>
