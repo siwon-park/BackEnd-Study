@@ -39,20 +39,41 @@
 
 ## 03_Spring Bean 등록 방법
 
-### ComponentScan
+### ComponentScan(@Component)
+
+- @**Component**
+  - 스프링 컨테이너에서 빈으로 등록될 `클래스`를 표시하는 가장 기본적인 어노테이션
+  - 재사용 가능한 컴포넌트임을 명시하기 위해 사용됨
 
 `@Component` 어노테이션을 붙이면 스프링 빈으로 자동 등록된다. 이를 컴포넌트 스캔이라고 한다
 
 또한 `@Controller`, `@Service`, `@Repository` 어노테이션을 적용시켜도 스프링 빈으로 자동 등록된다. 이는 이 세 개의 어노테이션이 @Component를 상속했기 때문이다.
 
+![image](https://user-images.githubusercontent.com/93081720/230126433-c35f2761-7140-4281-99ed-79e2d48aa731.png)
+
 - **@Controller**
   - 스프링 MVC 컨트롤러로 인식된다.
+  - 클라이언트로부터 요청이 왔을 때, 디스패처 서블렛(dispatcher servlet)이 핸들러 어댑터(handler adapter)를 통해 컨트롤러를 찾을 때, 해당 클래스가 '컨트롤러' 역할을 함을 명시함
 - **@Repository**
+  - DB에 직접적으로 접근하는 코드(레포지토리)임을 명시
   - 스프링 데이터 접근 계층으로 인식하고 해당 계층에서 발생하는 예외는 모두 DataAccessException으로 변환한다.
 - **@Service**
+  - 비즈니스 로직과 관련된 코드임을 명시
   - 특별한 처리는 하지 않으나, 개발자들이 핵심 비즈니스 계층을 인식하는데 도움을 준다
 
+### Bean 등록 방법 차이점?
 
+@Component, @Controller, @Service, @Repository의 차이점은 무엇일까?, 언제 어떻게 써야할까?
+
+스프링 공식문서인 Spring Doc에 따르면 `역할을 명시적으로 구분해주기 위해서 구분하여 사용한다`고 나와 있다.
+
+또한, 이렇게 사용함으로써 AOP(관점지향 프로그래밍)에서 적절한 pointcuts을 제공받을 수 있다고 한다.
+
+```
+you can annotate your component classes with @Component, but by annotating them with @Repository, @Service, @Controller instead, your classes are more properly suited for processing by tools or associating with aspects. For example, these stereotype annotations make ideal targets for pointcuts.
+```
+
+<br>
 
 다음과 같이 회원 컨트롤러를 등록하고, 회원 컨트롤러가 회원서비스와 회원 리포지토리를 사용할 수 있게 의존관계를 설정한다고 할 때
 
@@ -107,15 +128,15 @@ Bean Lite Mode는 CGLIB를 이용하여 바이트 코드 조작을 하지 않는
 
 ### 요약
 
-@Component
+#### @Component
 
 - 개발자가 **직접 컨트롤이 가능한 클래스들의 경우**에 사용된다.
-- 클래스 또는 인터페이스 단위에 붙일 수 있다.
+- `클래스 또는 인터페이스 단위`에 붙일 수 있다.
 
-@Bean
+#### @Bean
 
 - 개발자가 컨트롤이 불가능한 **외부 라이브러리들을 Bean으로 등록하고 싶은 경우**에 사용된다.
-- 메소드 또는 어노테이션 단위에 붙일 수 있다.
+- `메소드 또는 어노테이션 단위`에 붙일 수 있다.
 
 <br>
 
