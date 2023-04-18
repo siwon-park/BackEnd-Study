@@ -14,25 +14,33 @@
 
 해당 사용자가 본인이 맞는지를 확인하는 절차
 
+*"요청한 유저가 해당 유저가 맞는가?"*
+
 #### 인가(Authorization)
 
 인증된 사용자가 요청한 자원에 접근 가능한지를 결정하는 절차
 
+*"유저가 해당 자원에 접근할 권한이 있는가?"*
 
+<br>
 
-### 사용자와 암호
+### 사용자와 암호, 권한
 
 스프링 시큐리티에서는 인증과 인가를 위해 Principal을 아이디로, Credential을 비밀번호로 하는 Credential 기반의 인증 방식을 사용한다.
+
+Spring Security는 유저에 대한 인증 정보를 `Authentication`객체에 저장한다.
 
 #### 접근 주체(Principal)
 
 보호 받는 자원에 접근하는 대상. 사용자
 
-#### 비밀번호(Credential)
+#### 비밀번호(Credentials)
 
 보호 받는 자원에 접근하는 대상의 비밀번호
 
+#### 권한(Authorities)
 
+사용자의 접근 권한 정보
 
 <br>
 
@@ -44,7 +52,7 @@
 
 인증된 사용자의 정보들을 저장하는 공간으로, 보안 주체의 세부 정보를 포함하여 응용 프로그램의 현재 보안 컨텍스트에 대한 세부 정보가 저장된다.
 
-
+<br>
 
 ### SecurityContext
 
@@ -52,7 +60,7 @@
 
 스프링 시큐리티는 Security Context 안에 Authentication 객체가 있는지 체크하여 인증 여부를 결정한다
 
-
+<br>
 
 ### Authentication
 
@@ -61,38 +69,51 @@
 SecurityContextHolder를 통해 SecurityContext에 접근하고, SecurityContext를 통해 Authentication에 접근할 수 있다.
 
 ```java
-Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // SecurityContext에서 꺼냄
+// SecurityContext에서 꺼냄
+Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
 ```
 
-
+<br>
 
 ### UsernamePasswordAuthenticationToken
 
 Authentication을 implements한 AbstractAuthenticationToken의 하위 클래스로, User의 ID가 Principal 역할을 하고, Password가 Credential의 역할을 한다.
 
-
+<br>
 
 ### AuthenticationProvider
 
 실제 인증에 대한 부분을 처리하며, 인증 전의 Authentication객체를 받아서 인증이 완료된 객체를 반환하는 역할을 한다.
 
-
+<br>
 
 ### AuthenticationManager
 
 인증이 성공하면 Authentication객체를 생성하여 Security Context에 저장한다. 그리고 인증 상태를 유지하기 위해 세션에 보관하며, 인증이 실패한 경우에는 AuthenticationException를 발생시킨다.
 
-
+<br>
 
 ### UserDetails
 
-UserDetails 인터페이스는 인증 결과와 주체에 대한 필드를 반환하는 메서드를 가지고 있다. 
+`UserDetails 인터페이스`는 인증 결과와 주체에 대한 필드를 반환하는 메서드를 가지고 있다. 
 
+Spring Security를 통해 로그인을 구현하려면, UserDetails 인터페이스를 구현한(Implementation) Details 클래스를 만들어야 한다.
 
+<br>
 
 ### UserDetailService
 
-UserDetailsService 인터페이스는 UserDetails 객체를 반환하는 단 하나의 메소드 loadUserByUsername를 가지고 있다.
+`UserDetailsService 인터페이스`는 UserDetails 객체를 반환하는 단 하나의 메소드 `loadUserByUsername`를 가지고 있다.
+
+Spring Security를 통해 로그인을 구현하려면, UserDetailsService 인터페이스를 구현한 Service를 구현해야 한다.
+
+#### loadUserByUsername
+
+> 인증(authentication)과정에서 사용자의 정보를 불러오는 역할을 하는 메서드로, UserDetails 인터페이스를 구현한 객체를 반환한다.
+
+- 로그인 요청 시, 사용자명을 매개 변수로 받아서 이를 기준으로 DB에서 사용자 정보를 조회하여 UserDetails 인터페이스를 구현한 객체를 반환함
+- 반환된 UserDetails 객체에는 사용자 이름, 암호화된 비밀번호, 권한(authority) 목록 등을 갖고 있으며, 이 객체를 통해 Spring Security가 인증(authentication) 및 권한 부여(authorization)을 수행함
+- 수행한 결과를 SecurityContextHolder의 SecurityContext에 Authentication 객체로 저장함
 
 <br>
 
