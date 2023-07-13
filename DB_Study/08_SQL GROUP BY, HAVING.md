@@ -44,7 +44,7 @@ GROUP BY 절에 조건을 주기 위해 사용하므로, HAVING 단독만으로 
 
 여기서 말하는 값들은 여러 행(row)이며, 즉 여러 행을 입력으로 받아 하나의 값을 반환하는 함수이다.
 
-그런데 WHERE 절은 직접적으로 집계 함수와 같이 쓸 수 없다.
+그런데 **WHERE 절은 직접적으로 집계 함수와 같이 쓸 수 없다.**
 
 - WHERE 절은 "조건을 만족하는 `개별 행`"에 모두 적용된다고 했으므로, 여러 행들이 하나의 결과를 반환하는 집계 함수와 개념적으로 어긋난다.
 - 집계 함수의 집계 연산은 WHERE 절 다음에 진행된다.
@@ -65,3 +65,26 @@ HAVING COUNT(PRODUCT_ID) >= 2 # PRODUCT_ID가 2번 이상 등장했다면, 재�
 ORDER BY USER_ID ASC, PRODUCT_ID DESC;
 ```
 
+<br>
+
+### 예시
+
+#### WHERE절
+
+> 조건에 만족하는 모든 개별 행을 찾음
+
+|                         원본 테이블                          |                   WHERE 할인가 <= 32,000원                   |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/5606f6a6-d561-42d1-93cb-94428995531a) | ![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/d093fcef-c208-4b4f-99b9-184542a9f7d5) |
+
+<br>
+
+#### GROUP BY, HAVING 절
+
+> 각 그룹으로 묶고 그룹별로 연산 → 그룹별로 하나의 결과를 반환
+
+| 원본 테이블                                                  | GROUP BY 상품명                                              | HAVING MAX(할인가)                                           |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/5606f6a6-d561-42d1-93cb-94428995531a) | ![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/d84deaef-69f7-4342-bbe0-87fd073c0ec0) | ![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/df14fc9d-b43e-44d7-8b53-3a798f0ce6d0) |
+
+GROUP BY 자체도 하나의 행을 반환하지만, HAVING절의 집계함수와 함께 쓰여 집합 내에서 하나의 결과를 만들어 냄.
