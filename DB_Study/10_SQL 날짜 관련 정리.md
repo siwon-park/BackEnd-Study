@@ -77,7 +77,21 @@ TIMESTAMPDIFF(단위, 날짜1, 날짜2)
 
 <br>
 
-## 3. 기타 날짜 관련 함수들
+## 3. 날짜 비교 연산
+
+특정 날짜가 지정된 날짜 범위에 포함되는지 확인
+
+```SQL
+-- 칼럼의 날짜 값이 A와 B 사이에 있는지 확인
+WHERE DATE([COLUMN]) BETWEEN '2023-01-31' AND '2023-12-09';
+
+-- 특정 날짜가 칼럼 내에 있는지 확인
+WHERE DATE('2022-10-05') BETWEEN START_DATE AND END_DATE;
+```
+
+<br>
+
+## 4. 기타 날짜 관련 함수들
 
 ### dayofweek(date)
 
