@@ -1,8 +1,16 @@
 # 01_JPA 소개
 
-## SQL 중심적인 개발의 문제점
+JPA란?
 
-### 무한 반복, 지루한 코드
+## 1. SQL 중심적인 개발의 문제점
+
+![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/7e46aafe-0e59-41b0-9082-a31ca6c9a7a1)
+
+일반적으로 자바 어플리케이션은 `JDBC API`를 이용해 SQL을 데이터베이스에 전달하고 결과를 받는다.
+
+<br>
+
+### 1) 무한 반복, 지루한 코드
 
 자바 객체를 SQL로, SQL을 자바 객체로...(무한 반복)
 
@@ -12,7 +20,7 @@ SQL 의존적인 개발을 피하기 어려움
 
 
 
-### 패러다임의 불일치
+### 2) 패러다임의 불일치
 
 객체 지향적 사고와 관계형 데이터베이스의 사고가 다름
 
@@ -22,7 +30,7 @@ SQL 의존적인 개발을 피하기 어려움
 
 
 
-### 객체와 관계형 데이터 베이스의 차이
+### 3) 객체와 관계형 데이터 베이스의 차이
 
 1. 상속 => 객체는 상속이 있지만, 관계형은 없음(슈퍼타입-서브타입 관계는 있음)
    - 객체의 상속관계를 테이블에 맵핑하려면 쿼리문을 2번 작성해야함
@@ -41,11 +49,11 @@ SQL 의존적인 개발을 피하기 어려움
 
 <br>
 
-## JPA
+## 2. JPA (Java Persistence API)
 
-### Java Persistence Api
+>  Java Persistence API
 
-#### ORM
+### ORM
 
 Object Relational Mapping(객체 관계 맵핑)
 
@@ -53,7 +61,7 @@ Object Relational Mapping(객체 관계 맵핑)
 
 
 
-#### 구조 및 동작
+### 구조 및 동작
 
 JPA는 어플리케이션과 JDBC 사이에서 동작하는 구조
 
@@ -102,9 +110,9 @@ JPA는 **Hibernate**, EclipesLink, DataNucleus 구현체를 구현한 **표준 �
 
 #### 표준
 
+<br>
 
-
-## 요약
+## 3. 요약
 
 JPA를 배우더라도 RDB을 잘해야함
 
