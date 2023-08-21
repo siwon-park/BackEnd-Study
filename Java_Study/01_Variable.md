@@ -6,7 +6,7 @@
 
 자바에서 변수명은 카멜케이스(camelCase)로 명명한다.
 
-### 변수(variable)
+### 1) 변수(variable)
 
 > 값을 저장할 수 있는 공간
 
@@ -14,7 +14,7 @@
 
 <br>
 
-### 상수(Constant)
+### 2) 상수(Constant)
 
 > 변수와 같이 값을 저장할 수 있는 공간이지만, 값 변경이 불가능
 
@@ -22,7 +22,7 @@
 
 <br>
 
-### 리터럴(Literal)
+### 3) 리터럴(Literal)
 
 > 값 그 자체
 
@@ -35,7 +35,7 @@ final int MAX_VALUE = 999; // MAX_VALUE는 상수, 999는 리터럴
 
 ## 2. 기본형과 참조형
 
-### 기본형(Primitive Type)
+### 1) 기본형(Primitive Type)
 
 > stack영역에 실제 값을 저장하는 데이터 타입
 
@@ -61,7 +61,7 @@ int, long, double, float, boolean, char 등은 원시(primitive) 자료형이라
 
 <br>
 
-### 참조형(Reference Type)
+### 2) 참조형(Reference Type)
 
 > stack영역에 주소 값을 저장하고, heap 영역에 실제 값을 저장하는 데이터 타입
 
@@ -71,7 +71,7 @@ int, long, double, float, boolean, char 등은 원시(primitive) 자료형이라
 
 Boolean, Character, Integer, Long, Float, String, Double, ...
 
-#### 사용
+#### (1) 사용
 
 기본형 타입을 객체(Object)로 사용할 수 있게 해주기 때문에 `Collection`을 사용할 때, 객체로 저장할 수 있게 해준다.(제네릭으로서 명시)
 
@@ -95,9 +95,9 @@ String a = new String("happy java") // String 객체 생성
 
 <br>
 
-### 형 변환
+### 2) 형 변환
 
-#### 묵시적 형 변환(small -> large)
+#### (1) 묵시적 형 변환(small -> large)
 
 Promotion(묵시적 형 변환): `작은 데이터 → 큰 데이터(자동 캐스팅, 데이터 손실 위험이 없을 경우)`
 
@@ -105,7 +105,7 @@ Promotion(묵시적 형 변환): `작은 데이터 → 큰 데이터(자동 캐�
 
 - `char` → `int` → `long` → `float` → `double`
 
-#### 명시적 형 변환(large -> small)
+#### (2) 명시적 형 변환(large -> small)
 
 Demotion(명시적 형 변환): `큰 데이터 → 작은 데이터(데이터 손실 때문에 명시적 캐스팅 필요)`
 
@@ -129,7 +129,7 @@ public class Sample {
 }
 ```
 
-#### 다양한 형 변환
+#### (3) 다양한 형 변환
 
 ##### 문자(char) → 숫자
 
@@ -228,5 +228,32 @@ public class Sample {
 }
 ```
 
+<br>
 
+#### ※ 문자 → 숫자 변환 시 유의할 점
 
+알고리즘 문제를 풀 때, 가끔 문자열에서 문자 → 숫자로 변환해야 하는 일이 있다.
+
+```java
+String line = br.readLine(); // "123456789"
+```
+
+이 때 보통 2가지 방법을 사용할 수 있는데, 두 방법 간에 결과적인 측면에서 차이는 없으나 메모리 사용 측면에서는 유의미한 차이가 있다.
+
+- 문자 → 문자열 → 숫자
+
+```java
+int n1 = Integer.parseInt(line.charAt(2) + "");
+```
+
+- 문자 → 숫자
+
+```java
+int n2 = line.charAt(2) - '0';
+```
+
+첫 번째 방법의 경우 문자를 문자열로 먼저 변환하기 때문에 문자열 생성에 따른 메모리 추가 사용이 생길 수밖에 없다. 반면, 두 번째 방법은 바로 숫자로 변환하기 때문에 메모리를 그만큼 첫 번째 방법에 비해 덜 사용하게 된다.
+
+![화면 캡처 2023-08-20 193723](https://github.com/siwon-park/Problem_Solving/assets/93081720/14343fb4-23cf-41c5-87a2-67dfbe2e8bd5)
+
+위의 문제에서 두번째 위치에 있는 풀이가 문자 → 문자열 → 숫자 방식의 첫 번째 변환 방법을 사용한 것이고, 제일 위에 있는 메모리를 덜 사용한 풀이가 문자 → 숫자로 두 번째 변환 방법을 사용한 것이다.
