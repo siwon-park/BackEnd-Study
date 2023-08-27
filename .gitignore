@@ -7,6 +7,7 @@ imgs/
 *.zip
 node_modules/
 .idea/
+*.pptx
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
