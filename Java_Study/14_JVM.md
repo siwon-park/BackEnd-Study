@@ -109,7 +109,7 @@ static 변수들을 설정된 값으로 초기화하는 단계이며, static 블
 
 ### 3) 런타임 데이터 영역 (Runtime Data Area)
 
-JVM의 **`메모리 영역`**으로 **`Java 어플리케이션을 실행할 때 사용되는 데이터들을 적재하는 공간`**이다.
+JVM의 **`메모리 영역으로 Java 어플리케이션을 실행할 때 사용되는 데이터들을 적재하는 공간`**이다.
 
 ![image](https://github.com/siwon-park/BackEnd_Study/assets/93081720/247cc46d-17e4-4a5e-89ec-501fa2bb79f5)
 
