@@ -69,3 +69,40 @@ HelloController가 SimpleHelloService를 호출해서 사용하고 있을 때, H
 단, 디스패처 서블릿은 String Type으로 리턴하게 되면 해당 String값을 이름으로 가지는 뷰(View)를 찾아서 반환하기 때문에 해당 뷰가 없다면 에러(404)를 반환한다.
 
 - 뷰는 jsp, thymeleaf 등과 같은 자바 서버 페이지이다.
+
+
+
+팩토리 메서드
+
+- 오브젝트를 생성하는 로직을 담고 있는 메서드
+- `@Bean` => 빈 오브젝트를 생성하는 팩토리 메서드임을 명시
+- `@Configuration` => @Bean 메서드가 있는 클래스임을 명시하는 것(구성 정보를 가진 클래스다)
+  - 스프링 컨테이너가 이를 인식하여 빈 오브젝트를 생성함
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/7c0ca6fa-e9b1-456c-b261-ef1d42b59a25)
+
+
+
+@Component
+
+- 스프링 구성 요소로 인식하게 하는 어노테이션
+- 장점) 손쉽게 어노테이션 등록으로 구성 정보를 등록 가능
+- 단점) Component 클래스가 많이 만들어지면 정확히 어떤 클래스 요소가 Bean으로서 등록되는지 찾는게 번거로움 => 그래도 편리성이 커서 자주 사용함
+
+@ComponentScan
+
+- @Component라는 어노테이션이 붙은 스프링 구성요소를 스캔하여 해당 오브젝트가 스프링 빈 오브젝트로 사용되도록 함
+- @Configuration과 함께 사용됨
+
+
+
+메타 어노테이션
+
+- 어노테이션 위에 붙은 어노테이션
+- 왜 만드는가?
+  - Bean 오브젝트가 구체적으로 어떤 오브젝트인지 명시하기 위해서 사용 (Component만으로는 무엇인지 알 수 없으니)
+    - @Controller나 @RestController 역시 내부 코드를 확인하면 @Component가 내장된 메타 어노테이션이다. (@Controller와 같은 어노테이션을 스테레오 타입 어노테이션이라고 함)
+      - @RestController의 경우 @Controller를 포함하고 있으며, @ResponseBody도 포함하고 있기 때문에 API로서 더 적합한 기능을 할 수 있음
+        - @ResponseBody 때문에 응답으로 받는 오브젝트 자체로 본다
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/07d15813-e608-4bf1-9836-61c191a11071)
