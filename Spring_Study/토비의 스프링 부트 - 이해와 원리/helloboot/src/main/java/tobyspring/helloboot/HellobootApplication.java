@@ -1,29 +1,25 @@
 package tobyspring.helloboot;
 
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import tobyspring.config.MySpringBootAnnotation;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-@Configuration // @Bean 메서드가 있는 클래스임을 명시하여 스프링 컨테이너가 이를 인식하여 빈 오브젝트를 생성함 구성 정보를 가진 클래스
-@ComponentScan
+//@Configuration // @Bean 메서드가 있는 클래스임을 명시하여 스프링 컨테이너가 이를 인식하여 빈 오브젝트를 생성함 구성 정보를 가진 클래스
+//@ComponentScan
+@MySpringBootAnnotation
 public class HellobootApplication {
+//
+//	@Bean
+//	public ServletWebServerFactory servletWebServerFactory() {
+//		return new TomcatServletWebServerFactory();
+//	}
+//
+//	@Bean
+//	public DispatcherServlet dispatcherServlet() {
+//		return new DispatcherServlet();
+//	}
 
 //	@Bean // 빈 오브젝트를 생성하는 팩토리 메서드임을 명시 -> 상위 클래스에는 @Configuration을 붙여줘야 함
 //	public HelloController helloController(HelloService helloService) {
@@ -37,33 +33,8 @@ public class HellobootApplication {
 
 	public static void main(String[] args) {
 		// 스프링 컨테이너 생성 -> 어플리케이션 구성 정보
-		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
-			@Override
-			protected void onRefresh() {
-				super.onRefresh();
-
-				ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-				// 디스패처 서블릿
-				WebServer webServer = serverFactory.getWebServer(servletContext -> {
-					servletContext.addServlet("dispatcherServlet",
-							new DispatcherServlet(this) // GenericWebApplicationContext 클래스를 호출해야만 사용 가능
-					).addMapping("/*");
-				});
-				webServer.start();
-			}
-		};
-		// applicationContext.registerBean(HelloController.class); // 클래스 정보를 Bean에 담아 등록함
-		/*
-		* 그런데 스프링 컨테이너는 어떻게 HelloController가 SimpleHelloService를 사용할 것인지 알 수 있는가?
-		* HelloController를 보면 생성자를 통해 HelloService라는 인터페이스를 주입받는다.
-		* 예전에는 이를 xml로 context 정보에 등록했었지만, 이제는 많은 부분이 간소화되었다.
-		* 스프링 컨테이너는 Bean으로 등록되어 있는 클래스 중 HelloService를 구현한 클래스가 있는지 전부 다 뒤져서 찾아본 다음
-		* 의존성을 주입한다.
-		* */
-		//applicationContext.registerBean(SimpleHelloService.class); // 명확하게 어떤 클래스인지 등록해줘야 함
-		applicationContext.register(HellobootApplication.class);
-		applicationContext.refresh(); // 빈을 생성(초기화) -> 스프링 컨테이너를 초기화
-
+//		run(HellobootApplication.class, args);
+		MySpringBootApplication.run(HellobootApplication.class, args); // 결국 @SpringBootApplication이 붙어서 처음 만들었을 때와 동일한 구조!
 		// 톰캣 서버 시작 -> 그러나 실제 톰캣을 설치해서 보면 많은 설정이 필요한 것처럼
 		// .start()만으로 실행하기는 준비해야할 것이 많아서 쉽지 않다.
 //		new Tomcat().start();
@@ -117,6 +88,39 @@ public class HellobootApplication {
 //		});
 
 
+	}
+	
+	// 1. run 메서드로 추출 -> 2. MySpringBootApplication 참조
+	private static void run(Class<?> applicationClass, String... args) {
+		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
+			@Override
+			protected void onRefresh() {
+				super.onRefresh();
+
+				ServletWebServerFactory serverFactory = this.getBean(ServletWebServerFactory.class); //new TomcatServletWebServerFactory();
+				DispatcherServlet dispatcherServlet = this.getBean(DispatcherServlet.class);
+
+				dispatcherServlet.setApplicationContext(this); // 이 메서드는 호출하지 않아도 됨 -> 왜냐하면 DispatcherServlet이라는 클래스가 ApplicationContextAware라는 인터페이스를 구현해서 사용하고 있기 때문
+				// 디스패처 서블릿
+				WebServer webServer = serverFactory.getWebServer(servletContext -> {
+					servletContext.addServlet("dispatcherServlet",
+							new DispatcherServlet(this) // GenericWebApplicationContext 클래스를 호출해야만 사용 가능
+					).addMapping("/*");
+				});
+				webServer.start();
+			}
+		};
+		// applicationContext.registerBean(HelloController.class); // 클래스 정보를 Bean에 담아 등록함
+		/*
+		* 그런데 스프링 컨테이너는 어떻게 HelloController가 SimpleHelloService를 사용할 것인지 알 수 있는가?
+		* HelloController를 보면 생성자를 통해 HelloService라는 인터페이스를 주입받는다.
+		* 예전에는 이를 xml로 context 정보에 등록했었지만, 이제는 많은 부분이 간소화되었다.
+		* 스프링 컨테이너는 Bean으로 등록되어 있는 클래스 중 HelloService를 구현한 클래스가 있는지 전부 다 뒤져서 찾아본 다음
+		* 의존성을 주입한다.
+		* */
+		//applicationContext.registerBean(SimpleHelloService.class); // 명확하게 어떤 클래스인지 등록해줘야 함
+		applicationContext.register(applicationClass);
+		applicationContext.refresh(); // 빈을 생성(초기화) -> 스프링 컨테이너를 초기화
 	}
 
 }

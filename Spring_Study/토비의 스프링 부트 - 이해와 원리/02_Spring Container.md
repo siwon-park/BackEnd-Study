@@ -106,3 +106,22 @@ HelloController가 SimpleHelloService를 호출해서 사용하고 있을 때, H
         - @ResponseBody 때문에 응답으로 받는 오브젝트 자체로 본다
 
 ![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/07d15813-e608-4bf1-9836-61c191a11071)
+
+
+
+오토와이어링
+
+사용하는 오브젝트 구현체가 유일하다면, 자동으로 DI를 해주는 것
+
+- 예를 들어 HelloController에서 HelloInterface를 생성자를 통해 주입받는데, 이를 구현하여 빈으로 등록된 구현체 오브젝트가 한 개라면, 자동으로 주입시켜준다.
+- 하지만 HelloInterface를 구현한 오브젝트가 여러 개라면 스프링 프로젝트를 실행했을 때 에러가 발생함
+  - 구현한 오브젝트는 여러 개인데 누구를 주입할지 모르기 때문
+
+
+
+데코레이터 (프록시 패턴)
+
+여러가지 책임을 대신 조금 더 주는 구현체
+
+
+
