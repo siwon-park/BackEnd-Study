@@ -21,7 +21,7 @@ dependencies {
 //		// 스프링부트 스타터 웹에서 톰캣만 제외하고 불러옴
 //		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 //	}
-	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+//	implementation 'org.springframework.boot:spring-boot-starter-jetty'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
