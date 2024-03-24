@@ -1,7 +1,12 @@
 package tobyspring.helloboot;
 
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import tobyspring.config.MySpringBootAnnotation;
@@ -10,6 +15,14 @@ import tobyspring.config.MySpringBootAnnotation;
 //@ComponentScan
 @MySpringBootAnnotation
 public class HellobootApplication {
+//	@Bean
+//	ApplicationRunner applicationRunner(Environment env) {
+//		return args -> {
+//			String name = env.getProperty("my.name");
+//			System.out.println("my.name: " + name);
+//		};
+//	}
+
 //
 //	@Bean
 //	public ServletWebServerFactory servletWebServerFactory() {
@@ -34,7 +47,8 @@ public class HellobootApplication {
 	public static void main(String[] args) {
 		// 스프링 컨테이너 생성 -> 어플리케이션 구성 정보
 //		run(HellobootApplication.class, args);
-		MySpringBootApplication.run(HellobootApplication.class, args); // 결국 @SpringBootApplication이 붙어서 처음 만들었을 때와 동일한 구조!
+		SpringApplication.run(HellobootApplication.class, args);
+		// MySpringBootApplication.run(HellobootApplication.class, args); // 결국 @SpringBootApplication이 붙어서 처음 만들었을 때와 동일한 구조!
 		// 톰캣 서버 시작 -> 그러나 실제 톰캣을 설치해서 보면 많은 설정이 필요한 것처럼
 		// .start()만으로 실행하기는 준비해야할 것이 많아서 쉽지 않다.
 //		new Tomcat().start();

@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.ClassUtils;
 import tobyspring.config.ConditionalMyOnClass;
@@ -21,8 +22,10 @@ public class TomcatWebServerConfig {
     * 자동 구성 정보에서 이를 사용할 경우에는 나중에 등록될 빈에 포함되어 등록될 예정인데
     * Configuration 순서가 더 앞서서 먼저 등록되는 일이 발생하여 빈 오브젝트 등록에 문제가 생긴다.
     * */
-    public ServletWebServerFactory servletWebServerFactory() {
-        return new TomcatServletWebServerFactory();
+    public ServletWebServerFactory servletWebServerFactory(Environment env) {
+        TomcatServletWebServerFactory tomcatServletWebServerFactory = new TomcatServletWebServerFactory();
+        tomcatServletWebServerFactory.setContextPath(env.getProperty("context.path"));
+        return tomcatServletWebServerFactory;
     }
 
 //    static class TomcatCondition implements Condition {
