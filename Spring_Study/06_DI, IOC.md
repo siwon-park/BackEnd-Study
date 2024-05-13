@@ -10,9 +10,11 @@
 
 한 클래스를 수정한다고 했을 때, 다른 클래스까지 수정해야하는 상황이 발생하지 않으며, 외부에서 객체를 주입받는 부분만 수정하면 됨
 
-### 방법
+### 1) 방법
 
-#### 생성자(권장)
+#### (1) 생성자(권장)
+
+##### 직접 생성자 선언
 
 ```java
 public class Chef {
@@ -24,7 +26,21 @@ public class Chef {
 }
 ```
 
-#### setter
+##### @RequiredArgsConstructor
+
+롬복에서 제공하는 @RequiredArgsConstructor라는 어노테이션을 클래스에 선언하면 자동적으로 생성자를 선언해줌과 동시에 private final 키워드가 붙은 필드를 생성자의 매개변수로서 지정하여 의존성을 주입해준다.
+
+```java
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class MyClass {
+    private final MyDependency myDependency;
+    private final AnotherDependency anotherDependency;
+}
+```
+
+#### (2) setter
 
 ```java
 public class Chef {
@@ -35,7 +51,9 @@ public class Chef {
 }
 ```
 
-#### @Autowired
+#### (3) 필드 주입
+
+##### @Autowired
 
 ```java
 public class Chef {
