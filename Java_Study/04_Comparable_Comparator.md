@@ -30,6 +30,8 @@
 
 따라서 연산 방식으로 구현할 경우, 언더 플로우나 오버 플로우가 발생할 여지가 있는지를 반드시 먼저 확인한 다음에 사용해야 한다. 만약에 불확실하다면, `>`, `<`, `==`로 대소비교를 해주는 것이 안전하면서도 일반적으로 권장되는 방식이다.
 
+혹은 비교 대상이 하나라면 `Integer.compare`와 같이 메서드를 호출하는 것도 적절한 방법이다.
+
 <br>
 
 ## 2. Comparable
@@ -38,7 +40,7 @@
 >
 > 자기 자신과 타입이 동일한 매개변수를 비교한다. (**자기 자신과 비교**)
 
-### 사용법
+### 1) 사용법
 
 - 다음과 같이 Comparable 인터페이스를 구현하여 사용한다.
   - 만약 Comparable을 구현하지 않고, 정렬 메서드를 호출하면 정렬 기준이 없기 때문에 예외가 발생한다.
@@ -53,7 +55,7 @@
 
 ![image](https://user-images.githubusercontent.com/93081720/208085950-d29b97e6-f57b-4857-93b3-bde7a7534951.png)
 
-### 예시
+#### (1) 예시
 
 객체의 타입에 따라 `Arrays.sort()`나 `Collections.sort()`를 사용하여 정렬한다.
 
@@ -66,8 +68,10 @@
 >**compare** 메서드를 반드시 구현해야한다.
 >
 >타입이 동일한 서로 다른 두 매개 변수를 비교한다. (**서로 비교**)
+>
+>비교 대상 클래스에서 직접 구현하기보다는 비교를 위한 별도 클래스를 만들어서 비교한다.
 
-### 사용법 1 (Comparator 직접 구현)
+### 1) 사용법 1 (Comparator 직접 구현)
 
 - 기본적으로는 다음과 같이 Comparator인터페이스를 구현하여 사용한다.
 
@@ -77,7 +81,7 @@
 
 ![image](https://user-images.githubusercontent.com/93081720/208087068-178431cc-1d52-4fcb-9c3d-15ecfdd434d0.png)
 
-### 예시
+#### (1) 예시
 
 - 이렇게 사용할 경우, 객체를 생성하고, 객체를 통해 메서드를 호출해야한다.
   - 예) `pair1.compare(pair1, pair2)`, `pair2.compare(pair2, pair3)`
@@ -88,7 +92,20 @@
 
 <br>
 
-### 사용법 2(익명 객체 생성을 통한 Comparator 기능 분리)
+#### (2) 예시 2
+
+그러나 위의 예시처럼 비교 대상 클래스가 Comparator 인터페이스를 구현하기 보다는 비교를 위한 `별도의 비교 클래스를 만들어서 사용`하여 정렬할 때 사용하는 것이 일반적이다.
+
+![화면 캡처 2024-05-15 115049](https://github.com/siwon-park/BackEnd-Study/assets/93081720/960facd2-1409-41b5-9496-f653782b3f6f)
+
+- Pair 클래스를 비교할 수 있게 해주는 PairComparator 클래스를 선언하고 Comparator를 구현한다.
+- Pair의 인스턴스를 가진 자료 구조를 sort 메서드를 호출하여 정렬할 때, `new`키워드와 함께 PairComparator를 호출한다.
+
+![화면 캡처 2024-05-15 115114](https://github.com/siwon-park/BackEnd-Study/assets/93081720/38d9199a-5c49-4fb3-83a2-8e9b651010fe)
+
+<br>
+
+### 2) 사용법 2 (익명 객체 생성을 통한 Comparator 기능 분리)
 
 - 직접 Comparator를 클래스 레벨에서 구현하지 않고, 클래스만 선언
 
@@ -99,13 +116,13 @@
 
 ![image](https://user-images.githubusercontent.com/93081720/208089740-7085faab-6621-4526-b1cd-a30240ff3617.png)
 
-### 예시
+#### (1) 예시
 
 - `comp.compare(pair1, pair2)`와 같이 사용해도 되고, sort()안에 정렬 기준으로 적용 가능하다.
 
 ![image](https://user-images.githubusercontent.com/93081720/208090437-4974ec26-02c1-49c2-985d-9efb43a0f371.png)
 
-### 결론
+### 3) 결론
 
 익명 객체를 사용하여 비교 기준을 정의하는 것이 보다 바람직하다. 그 이유는
 
