@@ -224,3 +224,54 @@ GC 알고리즘 종류로는 Serial, ConcMarkSweep, Parallel, G1, ZGC, Shenandoa
 java --XX:+UserSerialGC -jar [실행할 java 파일명].java
 ```
 
+<br>
+
+### 1) Serial GC
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/4187fdcb-54b5-43ef-9f12-18312e6f8240)![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/4f405c06-b3d7-4db7-b499-c780eb957e3a)
+
+- 싱글 스레드로 GC 작업이 수행되어 느리다.
+- Mark-Sweep-Compact 알고리즘을 사용한다.
+- 이제는 거의 쓰이지 않는 GC 알고리즘이다.
+
+<br>
+
+### 2) Parallel GC
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/83e8426d-7de5-4878-9e82-e097dadf1752)
+
+- JDK 8의 기본 GC 알고리즘으로 멀티 스레드 방식으로 GC가 수행된다.
+- 멀티 스레딩 방식으로 GC가 수행되다보니 Serial GC에 비해 빠르다.
+  - Young 영역만 멀티 스레드로 수행되고 Old 영역은 싱글 스레드라는 한계.
+
+<br>
+
+### 3) CMS GC
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/cf581cdb-1930-49a1-944b-4e62a7740971)
+
+- Stop The World 현상 때문에 Java 어플리케이션이 멈추는 현상을 줄이는데 초점을 둔 GC 알고리즘
+- JDK9 이후 사용이 줄었고, JDK14 버전대부터는 지원 종료
+- 마킹을 여러 단계에 걸쳐 끊어서 적용하고 Sweeping 하는 방식으로 이루어진다.
+- Compact 과정은 별도 존재하지 않는다. Compact 과정이 있으면 결국 시간적으로 이점을 보기위해 적용한 부분들이 상쇄되기 때문이다.
+
+<br>
+
+### 4) G1 GC
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/bfa2e1e7-0166-446f-86ef-9b394eaf7c0a)![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/319b9acf-f4f0-4a1c-b146-e5577b429a40)
+
+- JDK9의 기본 GC로 메모리와 CPU를 많이 사용하는 CMS GC를 개선하기 위해 나온 방식이다.
+- 기존의 GC에서 구분한 Heap 영역과 달리 `Region(지역)`이라는 개념을 사용한다.
+- 각 region은 Eden, Survivor, Old 영역 등 다양하게 동적으로 역할을 부여 받아 구성되어 있다.
+  - 기존 GC와 달리 Humonogous라는 객체의 크기가 region의 50%를 넘는 큰 객체들을 저장하기 위한 영역이 별도 존재한다.
+
+<br>
+
+### 5) ZGC
+
+![image](https://github.com/siwon-park/BackEnd-Study/assets/93081720/4e1c8a8b-3ac7-471d-bd60-ffe0e9a85f34)
+
+- JDK11부터 실험적으로 도입된 GC로 region이 아니라 z page라는 영역으로 나눠서 힙 메모리를 관리한다.
+- z page는 2의 제곱 크기로 다양한 사이즈로 할당된다.
+- Stop The World 현상이 짧은 것이 가장 큰 장점이다.
