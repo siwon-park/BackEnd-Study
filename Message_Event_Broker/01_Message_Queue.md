@@ -44,6 +44,8 @@
 
 > 메세지 지향 미들웨어(MOM)을 구현한 시스템으로, 프로그램(프로세스) 간 데이터를 교환할 때 사용하는 기술
 
+※ 카프카(Kafka)는 엄밀히 말해서 메세지 큐는 아니지만 그러한 역할을 할 수 있다. (카프카는 이벤트 브로커이다.)
+
 <img src="https://user-images.githubusercontent.com/93081720/233534989-629ce70e-968b-4546-9df0-c4372fd81cb0.png" referrerpolicy="no-referrer" alt="image" height="400">
 
 ### 구성
