@@ -135,3 +135,19 @@ val arr2 = Array(3) { Array(5) {0} }
 var arr3 = Array(2) { Array(3) { Array(5) {0} } }
 ```
 
+<br>
+
+## 99. 기타
+
+### 1) split()
+
+자바의 split()은 매개변수로 정규 표현식(regex)를 받지만, 코틀린의 split()은 구분자(delimiters)이기 때문에 파이썬과 동일하게 사용하면 된다.
+
+```kotlin
+// "_"를 기준으로 파싱하고 싶을 때
+val words1: List<String> = tmp[0].split("\\_") // "\\_"로 넣으면 "\_"으로 파싱함
+val words2: List<String> = tmp[0].split("_") // "_"를 기준으로 파싱함
+```
+
+
+
