@@ -197,7 +197,7 @@ postHandle과 달리 컨트롤러 하위 레벨에서 예외가 발생하더라�
   - Request/Response 객체 조작 가능 (조작 가능; 전혀 다른 객체로 변환)
 
     - ```java
-      public MyFilter implements Filter {
+      public class MyFilter implements Filter {
           public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
               // 개발자가 다른 request와 response를 넣어줄 수 있음
               chain.doFilter(new MockHttpServletRequest(), new MockHttpServletResponse());       
