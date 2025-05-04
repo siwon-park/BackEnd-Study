@@ -33,6 +33,8 @@ AOP는 OOP의 대체 개념이 아니라 부족한 부분을 보완하기 위한
 
 > 스프링 AOP는 프록시 기반의 AOP 구현체이며, 스프링 빈에만 AOP를 적용할 수 있다.
 
+스프링 AOP에서 Aspect 모듈은 프록시 기반으로 동작하며, Advice 대상인 Target 역시 프록시 객체이다.
+
 ### 1) 프록시(Proxy) 패턴
 
 > 프록시 패턴이란 프록시 객체가 원래 객체를 감싸서 클라이언트의 요청을 처리하는 패턴이다.
@@ -114,6 +116,26 @@ public class ProxyEventServiceImpl implements EventService {
 이렇게 함으로써 기존 코드 수정 없이 동일한 명칭의 메서드를 호출하되, 추가된 기능을 적용할 수 있게 된다. 
 
 원래 코드에 손을 쓰지 않고도 기능을 추가 할 수는 있지만, 프록시를 구현한 코드를 보면 중복 코드가 발생할 수 있음을 알 수 있고, 다른 클래스에서도 동일한 기능을 사용하고자 할 때, 매번 이를 코딩을 해줘야 하는 부분이 있어 비효율적이다.
+
+#### (2) 자기 호출 제한(self-invocation)
+
+스프링 AOP는 프록시 기반으로 동작하며, 대상 Target 객체 역시 프록시 객체로 동작한다. 이 때, 중요한 점은 프록시 객체이기 때문에 self-invocation에 제한이 있다.
+
+다음과 같이 doSomething() 메서드 안에서 `this` 키워드로 doAnotherThing() 메서드를 호출하고 있다고 하자.
+
+![image-20250504214617994](assets/image-20250504214617994.png)
+
+Aspect를 다음과 같이 두 메서드에 대해서 Advice를 적용하는 코드로 작성했다고 할 때, 결과는 어떻게 나올까?
+
+![image-20250504214910587](assets/image-20250504214910587.png)
+
+결과는 doSomething() 메서드에 @Around로 설정한 Advice는 적용된 것을 알 수 있지만, doAnotherThing() 메서드에 @Before로 설정한 Advice는 실행되지 않았음을 알 수 있다. 
+
+![image-20250504214724408](assets/image-20250504214724408.png)
+
+이는 스프링 AOP가 프록시 기반으로 동작하기 때문에 실제로 doAnotherThing() 메서드를 호출한 것은 실제 객체(Real Object)이기 때문에 Advice가 적용되지 않은 것이다.
+
+doAnotherThing() 메서드에 Advice를 적용하고 싶다면 this로 직접 호출하지 않고 코드 구조를 바꿔서 프록시 객체를 통해서 메서드를 호출하도록 변경해줘야 한다.
 
 ### 2) Spring AOP
 
@@ -247,6 +269,8 @@ public class PerfAspect {
 }
 ```
 
+#### (3) @Component와 @EnableAspectJAutoProxy
+
 ※ Aspect 클래스에 @Component를 붙이는 이유?
 
 Aspect 역시 빈으로서 등록되어 싱글톤 객체로 사용된다. 따라서 스프링부트에서는 @SpringBootApplication에 자동 구성 기능이 포함되어 있어서 @Component만 붙여도 빈으로서 등록되어 사용이 가능하다.
@@ -264,3 +288,12 @@ public class AopConfig {
 }
 ```
 
+
+
+※ @EnableAspectJAutoProxy
+
+스프링 프레임워크를 사용하고 있다면 반드시 Aspect를 빈으로 등록하는 Config 파일에 해당 어노테이션을 붙여줘야 AOP 프록시 객체를 생성하고 Advice를 적용시킬 수 있다.
+
+하지만 스프링부트는 `spring-boot-autoconfigure` 모듈을 통해서 AOP에 대한 설정을 자동적으로 해주고 있다. 기본값은 `spring.aop.auto=true`로 설정되어 있으며, 이를 application.properties나 application.yml에서 false값으로 변경하면 aspect 및 advice가 적용되지 않는 것을 확인할 수 있다.
+
+- `AopAutoConfiguration` 클래스 내용 및 @ConditionalOnProperty 설정을 보면 자동으로 설정해주고 있음을 확인할 수 있다.
