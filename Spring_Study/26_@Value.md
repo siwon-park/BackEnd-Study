@@ -4,7 +4,7 @@
 
 ## 1. Springframework의 @Value와 Lombok의 @Value
 
-둘 다 어노테이션이고, 동일하지만 기능적으로 차이가 있다.
+둘 다 어노테이션으로 표기는 동일하지만 기능적으로 차이가 있다.
 
 ### 1) Springframework의 @Value
 
@@ -35,6 +35,14 @@
 ![image](https://github.com/user-attachments/assets/5290425d-66a2-4061-a089-1c4bdce69d41)
 
 위와 같이 작성한다면, properties에 해당 변수명으로 정의된 값이 있다면 해당 값을 불러오고, 없다면 @Value 어노테이션에 기본값으로 지정한 값을 가져온다.
+
+※ 특이하게도 url의 기본 Root path를 "/"로 기본값으로 지정하고 싶다면 빈 값(Empty String)으로 둬야 한다. `@Value("${context.path:}")`
+
+<br>
+
+#### (3) PropertySourcesPlaceholderConfigurer
+
+@Value 어노테이션이 동작하기 위해서는 PropertySourcesPlaceholderConfigurer가 스프링 빈으로서 등록이 되어 있어야 한다. 그렇지 않을 경우에는 사용 자체는 가능해도 값을 읽어오지 못해서 항상 null 값이 된다.
 
 <br>
 
