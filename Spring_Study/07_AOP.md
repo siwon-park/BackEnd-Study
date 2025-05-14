@@ -148,7 +148,7 @@ doAnotherThing() 메서드에 Advice를 적용하고 싶다면 this로 직접 �
 #### (1) 관련 용어
 
 - 어드바이스(Advice): 부가 기능 로직
-  - @Around, @Before, @After와 같은 어노테이션을 통해 부가 기능의 실행 시점을 제어할 수 있다.
+  - @Around, @Before, @After, @AfterReturning, @AfterThrowing와 같은 어노테이션을 통해 부가 기능의 실행 시점을 제어할 수 있다.
 - 타겟(Target): Advice를 받는 객체 (부가 기능을 받을 대상)
 - 조인트 포인트(Joint Point): Advice가 적용될 수 있는 위치. 스프링 AOP는 프록시를 통해서 동작하기 때문에 Advice가 적용될 위치는 타겟의 메서드로 제한된다.
 - 포인트 컷(Pointcut): Advice를 적용할 타겟의 위치를 선정하는 표현식. 스프링 AOP에서는 메서드 실행 시점만 포인트 컷을 지정 가능하다.
@@ -297,3 +297,66 @@ public class AopConfig {
 하지만 스프링부트는 `spring-boot-autoconfigure` 모듈을 통해서 AOP에 대한 설정을 자동적으로 해주고 있다. 기본값은 `spring.aop.auto=true`로 설정되어 있으며, 이를 application.properties나 application.yml에서 false값으로 변경하면 aspect 및 advice가 적용되지 않는 것을 확인할 수 있다.
 
 - `AopAutoConfiguration` 클래스 내용 및 @ConditionalOnProperty 설정을 보면 자동으로 설정해주고 있음을 확인할 수 있다.
+
+### 3) Advice 실행 시점 정리
+
+#### (1) @Around
+
+타겟 메서드 호출 전/후 주변(Around)
+
+Around Advice가 먼저 호출되고 난 다음 메서드를 호출하고 다시 Advice의 코드를 실행함
+
+- @Around Advice의 경우 ProceedingJoinPoint를 매개변수로 받는다
+  - JoinPoint를 확장한 인터페이스로, 메서드 실행을 제어할 수 있는 기능을 제공
+
+#### (2) @Before
+
+타겟 메서드 호출 전(Before)
+
+Before Advice가 먼저 호출되고 난 다음 메서드를 호출함
+
+- @Before Advice의 반환 타입은 void여야한다
+- JoinPoint를 매개변수로 받는다
+  - 메서드 실행, 생성자 호출, 필드 접근 등에 대한 정보를 제공
+
+#### (3) @After
+
+타겟 메서드 호출 종료 후(After)
+
+주의할 점은 타겟 메서드 호출이 성공하든, 예외를 던지든 상관 없이 무조건 메서드 호출 종료 후 수행됨.
+
+- @After Advice의 반환 타입은 void여야한다
+- JoinPoint를 매개변수로 받는다
+
+#### (4) @AfterReturning
+
+타겟 메서드 호출이 정상적으로 실행되어 종료되었을 때만 수행
+
+- @AfterReturning Advice의 반환 타입은 void여야한다
+- JoinPoint를 매개변수로 받는다
+- pointcut과 returning을 명시적으로 표기해줘야 한다
+
+```java
+@AfterReturning(pointcut = "execution(* com.example.service.*.*(..))", returning = "result")
+public void logAfterReturning(JoinPoint joinPoint, Object result) {
+    System.out.println("Executed after successful method execution: " + joinPoint.getSignature());
+    System.out.println("Return value: " + result);
+}
+```
+
+#### (5) @AfterThrowing
+
+타겟 메서드 호출 중 예외를 던졌을 때만 수행
+
+- @AfterThrowing Advice의 반환 타입은 void여야한다
+- JoinPoint를 매개변수로 받는다
+- pointcut과 throwing을 명시적으로 표기해줘야 한다
+
+```java
+@AfterThrowing(pointcut = "execution(* com.example.service.*.*(..))", throwing = "exception")
+public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
+    System.out.println("Executed after method throws an exception: " + joinPoint.getSignature());
+    System.out.println("Exception: " + exception.getMessage());
+}
+```
+
