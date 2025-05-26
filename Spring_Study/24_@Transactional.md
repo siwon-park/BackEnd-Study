@@ -104,5 +104,4 @@ try-catch 구문과 setAutoCommit(false), commit(), rollback() 등의 메서드�
 
 이러한 방식을 선언적 트랜잭션 관리라고 한다.
 
-
-
+즉, 스프링에서는 @Transactional로 선언한 클래스 혹은 메서드에서 트랜잭션으로 묶은 메서드들이 예외없이 성공적으로 호출되었을 때만 이를 DB에 커밋 요청을 보낸다.
