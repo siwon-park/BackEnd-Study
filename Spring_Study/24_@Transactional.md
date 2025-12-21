@@ -31,9 +31,17 @@
 
 >  어플리케이션 단에서 트랜잭션을 관리하기 위해서 사용하는 어노테이션
 
-트랜잭션이라는 것을 보면, DB상에서 일어나는 쿼리 작업들의 집합이다.
+트랜잭션은 DB상에서 일어나는 쿼리 작업들의 집합이다.
 
 즉 DBMS의 관점에 해당하는 요소인데, 어플리케이션에서 트랜잭션을 관리한다는 것은 무슨 의미인가?
+
+### 0) import
+
+@Transactional 어노테이션은 2개가 있어서 정확한 어노테이션을 import 해와야 한다.
+
+트랜잭션 관리를 위한 어노테이션은 springframework의 transaction 패키지 내에서 불러와야 한다.
+
+`import org.springframework.transaction.annotation.Transactional;`
 
 ### 1) Without Transaction
 
