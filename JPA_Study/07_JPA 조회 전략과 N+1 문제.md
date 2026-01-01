@@ -1,8 +1,36 @@
-# 07_JPA N + 1 문제
+# 07_JPA 조회 전략과 N + 1 문제
 
-## 1. N + 1 문제 (N + 1 Problem)
+## 1. JPA 조회 전략
 
-### N + 1 문제란?
+### 1) Eager Fetch
+
+> 즉시 로딩
+
+서로 연관 관계에 있는 엔티티 A, B가 있을 때, A 혹은 B를 조회했을 때 상대방 엔티티까지 함께 조회해오는 전략을 말한다.
+
+A에 대한 조회 쿼리를 날리면서 B에 대한 조회 쿼리도 함께 수행된다.
+
+- `@ManyToOne`, `@OneToOne` 연관관계에서의 기본 조회 전략이다.
+- 서로 연관 관계에 있는 데이터를 거의 항상 바로 사용해야 할 때 혹은 읽을 때 연관 관계에 있는 데이터가 꼭 필요할 때 채택하는 조회 전략이다.
+
+<br>
+
+### 2) Lazy Fetch
+
+> 지연 로딩
+
+서로 연관 관계에 있는 엔티티 A, B가 있을 때, A 혹은 B를 조회했을 때 처음에는 상대방 엔티티를 조회해오지 않고 상대방 엔티티를 참조하려고 할 때 조회해오는 전략을 말한다.
+
+A에 대한 조회 쿼리를 날리고, B에 대해서는 조회해오지 않는다. 하지만 A를 통해서 B를 참조하려는 순간 B에 대한 조회 쿼리를 날리게 된다.
+
+- `@OneToMany`, `@ManyToMany` 연관관계에서의 기본 조회 전략이다.
+- 상대방의 타입이 컬렉션일 때, 바로 조회를 하게되면 데이터 양이 커질 수도 있어 필요할 때만 가져와야 할 경우 사용하는 조회 전략이다.
+
+<br>
+
+## 2. N + 1 문제 (N + 1 Problem)
+
+### 1) N + 1 문제란?
 
 > 1번의 쿼리로 N개의 데이터를 가져왔는데, 조회된 데이터의 개수인 N개만큼 연관 관계 조회 쿼리가 N번 실행되어 총 N + 1개의 쿼리가 실행되는 문제를 말한다.
 
@@ -10,15 +38,13 @@
 
 - N + 1 문제의 예시. 분명 쿼리문이 처음에 1개 실행됬는데, 이후에 N개가 더 실행됨을 확인할 수 있다.
 
-<br>
+### 2) 발생 시점과 원인
 
-### 언제 발생하는가?
+#### (1) 언제 발생하는가?
 
 JPA Repository 인터페이스 메서드를 통해 1:N 또는 N:1 연관 관계를 가진 Entity를 조회할 때 발생
 
-<br>
-
-### 왜 발생하는가?
+#### (2) 왜 발생하는가?
 
 JPA Repository에서 정의한 인터페이스 메서드를 실행하면 JPA는 메서드 이름을 분석한 다음 JPQL을 가지고  SQL구문을 생성해서 실행한다.
 
@@ -26,7 +52,7 @@ JPA Repository에서 정의한 인터페이스 메서드를 실행하면 JPA는 
 
 즉, Fetch 전략을 어떻게 가져가더라도 N + 1 문제가 발생하게 된다.
 
-#### Eager Fetch 전략(즉시 로딩)일 경우
+#### (3) Eager Fetch 전략(즉시 로딩)일 경우
 
 1. `findAll()`이 들어간 인터페이스 메서드 실행
 2. `SELECT * FROM <참조 테이블>`이라는 SQL 쿼리문이 생성되고 실행
@@ -36,8 +62,6 @@ JPA Repository에서 정의한 인터페이스 메서드를 실행하면 JPA는 
    - `SELECT * FROM <연관 테이블> WHERE [참조 테이블_id = ?]`와 같은 SQL 구문이 생성/실행된다.
 5. 총 N + 1개의 쿼리가 생성/실행되었으므로 N + 1 문제 발생
 
-
-
 - 예시)
 
 ![image](https://user-images.githubusercontent.com/93081720/209462088-a094def7-13a8-45d2-b8dd-ab3169bea8a1.png)
@@ -46,9 +70,7 @@ JPA Repository에서 정의한 인터페이스 메서드를 실행하면 JPA는 
 
 Eager Fetch 전략은 findAll() 메서드를 호출하면 N + 1 문제가 즉시 발생함을 알 수 있다.
 
-<br>
-
-#### Lazy Fetch 전략(지연 로딩)일 경우
+#### (4) Lazy Fetch 전략(지연 로딩)일 경우
 
 1. `findAll()`이 들어간 인터페이스 메서드 실행
 2. `SELECT * FROM <테이블>`이라는 SQL 쿼리문이 생성되고 실행
@@ -60,8 +82,6 @@ Eager Fetch 전략은 findAll() 메서드를 호출하면 N + 1 문제가 즉시
 6. 결국에는 총 N + 1개의 쿼리가 생성/실행되었으므로 N + 1 문제 발생
    - Eager Fetch와 발생 시점만 다를 뿐, 결국에는 N + 1 문제가 발생하는 것은 마찬가지
 
-
-
 - 예시)
 
 ![image](https://user-images.githubusercontent.com/93081720/209462120-1168aa9e-1c74-4323-b9c8-96061e2ee6ca.png)
@@ -72,9 +92,9 @@ Lazy Fetch 전략은 findAll() 메서드 호출 당시에는 1개의 쿼리문�
 
 <br>
 
-### 해결 방법
+### 3) 해결 방법
 
-#### 1. Fetch Join(패치 조인)
+#### (1) Fetch Join(패치 조인)
 
 JPQL을 사용해서 DB에서 데이터를 가져올 때, 처음부터 연관 관계에 있는 데이터까지 전부 가져오게 하는 방법이다. (SQL의 JOIN 개념)
 
@@ -90,7 +110,7 @@ JPQL을 사용해서 DB에서 데이터를 가져올 때, 처음부터 연관 �
 
 <br>
 
-#### 2. @EntityGraph 어노테이션
+#### (2) @EntityGraph 어노테이션
 
 Fetch Join과 마찬가지로 별도의 메서드를 만들고 `@EntityGraph`어노테이션을 작성하고, attributePaths 옵션에 쿼리 수행 시 바로 가져올 필드명을 지정하여 Eager Fetch로 가져오게 한다.
 
@@ -106,9 +126,7 @@ List<Team> findAllEntityGraph();
 
 실행 결과를 보면 SQL의 Outer Join이 발생했음을 알 수 있다.
 
-<br>
-
-#### Fetch Join과 EntityGraph 사용 시 주의점
+#### (3) Fetch Join과 EntityGraph 사용 시 주의점
 
 두 방법 모두 Join 사용한다는 것에 있어 비슷하지만 차이가 있다.
 
@@ -139,9 +157,7 @@ List<Team> findAllEntityGraph();
 private Set<User> users = new HashSet<>(); // 만약 순서 보장이 필요하다면 LinkedHashSet으로 선언하면 된다.
 ```
 
-<br>
-
-#### 3. @BatchSize 어노테이션
+#### (4) @BatchSize 어노테이션
 
 하이버네이트가 제공하는 `org.hibernate.annotations.BatchSize` 의 `@BatchSize` 어노테이션을 사용하여 연관 관계에 있는 Entity를 조회할 때, 지정된 size만큼 SQL의 IN절을 사용하여 조회한다.
 
@@ -192,7 +208,7 @@ spring.jpa.properties.hibernate.default_batch_fetch_size=100
 
 <br>
 
-### 결론
+### 4) 결론
 
 JPA는 편리하긴하지만 만능은 아니다.
 
