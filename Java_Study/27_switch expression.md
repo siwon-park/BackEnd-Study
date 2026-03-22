@@ -57,3 +57,17 @@ String label = switch (day) {
   default                     -> "Weekday";
 };
 ```
+
+<br>
+
+## 3. switch expression 유의 사항
+
+### 1) 지원하지 않는 타입
+
+switch 판별식에 넣었을 때 지원하지 않는 타입이 존재한다. `long`, `float`, `double`이다.
+
+Java 설계 당시에 switch문은 내부적으로 tableswitch, lookupswitch라는 바이트 코드 명령어를 사용하도록 설계했는데, 이 명령어들이 기본적으로 32비트 정수(int)값에 최적화되어 있기 때문이다.
+
+그래서 이를 벗어나는 범위의 타입은 지원하지 않는다. (float의 경우 32비트이지만 부동소수점으로 인해 정밀도에 오착가 발생할 수 있어 지원하지 않는다.)
+
+따라서 이를 처리해야 한다면, switch 구문이 아니라 if-else 구문을 사용하는 것이 더 적절하다. 만약에 long의 경우 범위가 충분히 int형 안에 들어간다면 캐스팅을 하는 것도 방법이다.
